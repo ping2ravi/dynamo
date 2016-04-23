@@ -1,0 +1,1 @@
+FROM ping2ravi/tomcat:8.0.28_oracle_jdk8.66.17_ubuntu14.04

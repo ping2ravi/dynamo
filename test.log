@@ -1,0 +1,45 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building dynamo 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ dynamo ---
+[INFO] Deleting /home/ravi/work/projects/github/dynamo/target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ dynamo ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ravi/work/projects/github/dynamo/src/main/resources
+[INFO] skip non existing resourceDirectory /home/ravi/work/projects/github/dynamo/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ dynamo ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 1 source file to /home/ravi/work/projects/github/dynamo/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ dynamo ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ravi/work/projects/github/dynamo/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ dynamo ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.18.1:test (default-test) @ dynamo ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-war-plugin:2.5:war (default-war) @ dynamo ---
+[INFO] Packaging webapp
+[INFO] Assembling webapp [dynamo] in [/home/ravi/work/projects/github/dynamo/target/dynamo-0.0.1-SNAPSHOT]
+[INFO] Processing war project
+[INFO] Webapp assembled in [46 msecs]
+[INFO] Building war: /home/ravi/work/projects/github/dynamo/target/dynamo-0.0.1-SNAPSHOT.war
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ dynamo ---
+[INFO] Installing /home/ravi/work/projects/github/dynamo/target/dynamo-0.0.1-SNAPSHOT.war to /home/ravi/.m2/repository/com/next/dynamo/dynamo/0.0.1-SNAPSHOT/dynamo-0.0.1-SNAPSHOT.war
+[INFO] Installing /home/ravi/work/projects/github/dynamo/pom.xml to /home/ravi/.m2/repository/com/next/dynamo/dynamo/0.0.1-SNAPSHOT/dynamo-0.0.1-SNAPSHOT.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.610 s
+[INFO] Finished at: 2016-04-17T15:24:57+01:00
+[INFO] Final Memory: 27M/308M
+[INFO] ------------------------------------------------------------------------
