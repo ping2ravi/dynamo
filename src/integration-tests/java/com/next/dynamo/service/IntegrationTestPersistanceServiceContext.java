@@ -4,9 +4,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 //@TestPropertySource(locations="classpath:application.properties")
 @SpringBootApplication
-public class TestPersistanceServiceContext {
+public class IntegrationTestPersistanceServiceContext {
 
-	public TestPersistanceServiceContext() {
+	public IntegrationTestPersistanceServiceContext() {
 		// TODO Auto-generated constructor stub
 	}
 

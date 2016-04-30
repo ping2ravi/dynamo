@@ -9,26 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.next.dynamo.exception.DynamoException;
 import com.next.dynamo.persistance.Domain;
 
-public class DynamoServiceImplTest {
+public class ITDynamoServiceImplTest extends BaseServiceItest{
 
+	@Autowired
 	private DynamoService dynamoService;
 	
 	@Before
 	public void init() {
 		// TODO Auto-generated constructor stub
-		dynamoService = new DynamoServiceImpl();
 		
 	}
 	
 	@Test
 	public void createDomainAndRetrieveItById() throws DynamoException{
-		/*
 		Domain domain = new Domain();
 		domain.setName("www.mydomain.com");
 		Domain savedDomain = dynamoService.saveDomain(domain);
 		Domain fetchedDomain = dynamoService.getDomainById(savedDomain.getId());
 		assertEqualDomain(domain, fetchedDomain);
-		*/
 	}
 	protected void assertEqualDomain(Domain exepected, Domain actual){
 		if(exepected == null && actual == null){
