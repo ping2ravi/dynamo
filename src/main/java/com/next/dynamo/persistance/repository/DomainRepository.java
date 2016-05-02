@@ -6,5 +6,4 @@ import com.next.dynamo.persistance.Domain;
 
 public interface DomainRepository extends JpaRepository<Domain, Long> {
 
-	
 }

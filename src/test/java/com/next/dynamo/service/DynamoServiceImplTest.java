@@ -4,31 +4,35 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.next.dynamo.exception.DynamoException;
 import com.next.dynamo.persistance.Domain;
+import com.next.dynamo.persistance.repository.DomainRepository;
 
 public class DynamoServiceImplTest {
 
-	private DynamoService dynamoService;
+	@InjectMocks
+	private DynamoServiceImpl dynamoService;
+	
+	@Mock
+	private DomainRepository domainRepository;
 	
 	@Before
 	public void init() {
-		// TODO Auto-generated constructor stub
-		dynamoService = new DynamoServiceImpl();
-		
+		MockitoAnnotations.initMocks(this);
 	}
 	
 	@Test
 	public void createDomainAndRetrieveItById() throws DynamoException{
-		/*
 		Domain domain = new Domain();
-		domain.setName("www.mydomain.com");
-		Domain savedDomain = dynamoService.saveDomain(domain);
-		Domain fetchedDomain = dynamoService.getDomainById(savedDomain.getId());
-		assertEqualDomain(domain, fetchedDomain);
-		*/
+		dynamoService.saveDomain(domain);
+		Mockito.verify(domainRepository).save(domain);
+
 	}
 	protected void assertEqualDomain(Domain exepected, Domain actual){
 		if(exepected == null && actual == null){
