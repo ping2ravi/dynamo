@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +16,7 @@ import lombok.Setter;
 public class StaticDataPlugin extends DataPlugin {
 
     @Column(name = "content", columnDefinition = "LONGTEXT")
+    @NotBlank(message="{staticdataplugin.content.empty.error}")
     private String content;
 
     public String getContent() {

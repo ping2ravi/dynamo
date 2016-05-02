@@ -2,17 +2,13 @@ package com.next.dynamo.service;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Set;
-
 import javax.validation.ConstraintViolationException;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 
-import com.google.common.collect.Sets;
 import com.next.dynamo.exception.DynamoException;
 import com.next.dynamo.persistance.Domain;
 
@@ -21,23 +17,11 @@ public class ITDynamoServiceImplTest extends BaseServiceItest{
 	@Autowired
 	private DynamoService dynamoService;
 	
-	@Autowired
-	private MessageSource messageSource;
-	
 	@Before
 	public void init() {
 	}
 	
-	protected Domain createDomain(String name, boolean active, String setting, Domain extendDomain, String...aliases){
-		Domain domain = new Domain();
-		domain.setName(name);
-		domain.setActive(active);
-		Set<String> aliasSet = Sets.newHashSet(aliases);
-		domain.setAliases(aliasSet);
-		domain.setSetting(setting);
-		domain.setExtendedDomain(extendDomain);
-		return domain;
-	}
+	
 	@Test
 	public void createDomainAndRetrieveItById() throws DynamoException{
 		Domain domain = createDomain("www.mydomain.com", true, "Some Setting", null, "www.myalias.com");
@@ -82,16 +66,6 @@ public class ITDynamoServiceImplTest extends BaseServiceItest{
 		Domain domain = createDomain("   ", true, "Some Setting", null, "www.myalias.com");
 		dynamoService.saveDomain(domain);
 	}
-	protected void assertEqualDomain(Domain exepected, Domain actual){
-		if(exepected == null && actual == null){
-			return;
-		}
-		assertEquals(exepected.getId(), actual.getId());
-		assertEquals(exepected.getAliases(), actual.getAliases());
-		assertEqualDomain(exepected.getExtendedDomain(), actual.getExtendedDomain());
-		assertEquals(exepected.getName(), actual.getName());
-		assertEquals(exepected.getSetting(), actual.getSetting());
-		assertEquals(exepected.isActive(), actual.isActive());
-	}
+	
 
 }

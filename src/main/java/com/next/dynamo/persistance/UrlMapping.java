@@ -3,14 +3,19 @@ package com.next.dynamo.persistance;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +27,7 @@ import lombok.Setter;
 public class UrlMapping extends BaseEntity {
 
     @Column(name = "url_pattern")
+    @NotBlank(message="{urlmapping.urlpattern.empty.error}")
     private String urlPattern;
 
    
@@ -47,5 +53,12 @@ public class UrlMapping extends BaseEntity {
 
     @OneToMany(mappedBy = "urlMapping", fetch = FetchType.LAZY)
     private List<UrlMappingPlugin> urlMappingPlugins;
+    
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinColumn(name = "domain_id")
+    @NotNull(message="{urlmapping.domain.null.error}")
+    private Domain domain;
+    @Column(name = "domain_id", insertable = false, updatable = false)
+    private Long domainId;
 
 }

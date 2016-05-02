@@ -1,9 +1,5 @@
 package com.next.dynamo;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-
-import org.lightadmin.api.config.LightAdmin;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -38,13 +34,5 @@ public class App extends SpringBootServletInitializer {
 		return localValidatorFactoryBean;
 	}
 
-	// Light Admin
-	@Override
-	public void onStartup(ServletContext servletContext) throws ServletException {
-		LightAdmin.configure(servletContext).basePackage("com.next.dynamo.admin").baseUrl("/admin")
-				.security(false).backToSiteUrl("http://lightadmin.org");
-
-		super.onStartup(servletContext);
-	}
-
+	
 }

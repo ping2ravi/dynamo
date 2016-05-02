@@ -10,6 +10,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,10 +30,12 @@ public class Template extends BaseEntity{
 
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
     @JoinColumn(name = "domain_template_id")
+    @NotNull(message="{template.domaintemplate.null.error}")
     private DomainTemplate domainTemplate;
     @Column(name = "domain_template_id", insertable = false, updatable = false)
     private Long domainTemplateId;
 
 	@Column(name = "git_file_path")
+	@NotBlank(message="{template.git.filepath.blank.error}")
     private String gitFilePath;
 }

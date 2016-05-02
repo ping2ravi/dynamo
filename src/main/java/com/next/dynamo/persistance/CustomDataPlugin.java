@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,15 +16,8 @@ import lombok.Setter;
 public class CustomDataPlugin extends DataPlugin {
 
     @Column(name = "full_class_name")
+    @NotBlank(message="{customdataplugin.fullclassname.empty.error}")
     private String fullClassName;
-
-    public String getFullClassName() {
-        return fullClassName;
-    }
-
-    public void setFullClassName(String fullClassName) {
-        this.fullClassName = fullClassName;
-    }
 
     @Override
     public String toString() {

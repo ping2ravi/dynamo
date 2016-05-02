@@ -7,6 +7,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,33 +24,8 @@ public class DataPlugin extends BaseEntity{
     @Column(name = "disabled")
     private boolean disabled;
     @Column(name = "plugin_name")
+    @NotBlank(message="{dataplugin.pluginname.empty.error}")
     private String pluginName;
-    @Column(name = "global", columnDefinition = "BIT(1) DEFAULT 0")
-    private boolean global;
-
-    public boolean isDisabled() {
-        return disabled;
-    }
-
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
-    }
-
-    public String getPluginName() {
-        return pluginName;
-    }
-
-    public void setPluginName(String pluginName) {
-        this.pluginName = pluginName;
-    }
-
-    public boolean isGlobal() {
-        return global;
-    }
-
-    public void setGlobal(boolean global) {
-        this.global = global;
-    }
 
     @Override
     public String toString() {
