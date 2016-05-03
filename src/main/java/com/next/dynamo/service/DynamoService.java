@@ -23,6 +23,8 @@ public interface DynamoService {
 	
 	DomainTemplate getDomainTemplateById(Long domainTemplateId) throws DynamoException;
 	
+	DomainTemplate getActiveDomainTemplateOfDomain(Long domainId) throws DynamoException;
+	
 	CustomDataPlugin saveCustomDataPlugin(CustomDataPlugin customDataPlugin) throws DynamoException;
 
 	CustomDataPlugin getCustomDataPluginById(Long customDataPluginId) throws DynamoException;

@@ -25,7 +25,7 @@ public class DomainTemplate extends BaseEntity {
 
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "domain_id")
-    @NotNull
+    @NotNull(message="{domiantemplate.domain.empty.error}")
     private Domain domain;
     @Column(name = "domain_id", insertable = false, updatable = false)
     private Long domainId;

@@ -31,6 +31,47 @@ public class ITDynamoServiceImplTest_DomainTemplate extends BaseServiceItest{
 		
 		assertEqualDomainTemplate(domainTemplate, dbDomainTemplate);
 	}
+	@Test
+	public void createADomainTemplateWithValidValuesGetItByGetActiveDomainTemplateOfDomain() throws DynamoException{
+		Domain domain = createDomain("www.test.com", true, "{Some Settings}", null);
+		domain = dynamoService.saveDomain(domain);
+		
+		DomainTemplate domainTemplate = createDomainTemplate("My Template", "master", "git Repository", true, domain);
+		domainTemplate = dynamoService.saveDomainTemplate(domainTemplate);
+		
+		DomainTemplate dbDomainTemplate = dynamoService.getActiveDomainTemplateOfDomain(domain.getId());
+		
+		assertEqualDomainTemplate(domainTemplate, dbDomainTemplate);
+	}
+	
+	@Test(expected=DynamoException.class)
+	public void createADomainTemplateWithValidValuesWhenOtherActiveDomainTemplateExistsForDomain() throws DynamoException{
+		Domain domain = createDomain("www.test.com", true, "{Some Settings}", null);
+		domain = dynamoService.saveDomain(domain);
+		
+		DomainTemplate domainTemplate = createDomainTemplate("My Template", "master", "git Repository", true, domain);
+		domainTemplate = dynamoService.saveDomainTemplate(domainTemplate);
+		
+		DomainTemplate domainTemplateOther = createDomainTemplate("My Other Template", "master", "git Repository", true, domain);
+		dynamoService.saveDomainTemplate(domainTemplateOther);
+	}
+	@Test
+	public void createADomainTemplateWithValidValuesWhenOtherInActiveDomainTemplateExistsForDomain() throws DynamoException{
+		Domain domain = createDomain("www.test.com", true, "{Some Settings}", null);
+		domain = dynamoService.saveDomain(domain);
+		
+		DomainTemplate domainTemplate = createDomainTemplate("My Template", "master", "git Repository", false, domain);
+		domainTemplate = dynamoService.saveDomainTemplate(domainTemplate);
+		
+		DomainTemplate domainTemplateOther = createDomainTemplate("My Other Template", "master", "git Repository", true, domain);
+		domainTemplateOther = dynamoService.saveDomainTemplate(domainTemplateOther);
+		
+		DomainTemplate dbDomainTemplate = dynamoService.getDomainTemplateById(domainTemplate.getId());
+		assertEqualDomainTemplate(domainTemplate, dbDomainTemplate);
+		
+		DomainTemplate dbDomainTemplateOther = dynamoService.getDomainTemplateById(domainTemplateOther.getId());
+		assertEqualDomainTemplate(domainTemplateOther, dbDomainTemplateOther);
+	}
 	
 	@Test(expected=ConstraintViolationException.class)
 	public void createADomainTemplateWhenNameIsNull() throws DynamoException{
@@ -82,7 +123,7 @@ public class ITDynamoServiceImplTest_DomainTemplate extends BaseServiceItest{
 		dynamoService.saveDomainTemplate(domainTemplate);
 		
 	}
-	@Test(expected=ConstraintViolationException.class)
+	@Test(expected=DynamoException.class)
 	public void createADomainTemplateWhenDomainIsNull() throws DynamoException{
 		Domain domain = null;
 		

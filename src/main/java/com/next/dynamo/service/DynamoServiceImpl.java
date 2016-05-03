@@ -24,6 +24,7 @@ import com.next.dynamo.persistance.repository.PageTemplateRepository;
 import com.next.dynamo.persistance.repository.StaticDataPluginRepository;
 import com.next.dynamo.persistance.repository.UrlMappingPluginRepository;
 import com.next.dynamo.persistance.repository.UrlMappingRepository;
+import com.next.dynamo.util.DynamoAssert;
 
 @Service
 @Transactional
@@ -65,6 +66,11 @@ public class DynamoServiceImpl implements DynamoService {
 
 	@Override
 	public DomainTemplate saveDomainTemplate(DomainTemplate domainTemplate) throws DynamoException {
+		DynamoAssert.notNull(domainTemplate.getDomain(), "{domiantemplate.domain.empty.error}");
+		DomainTemplate currentActiveDomainTemplate = domainTemplateRepository.findActiveDomainTemplateByDomainId(domainTemplate.getDomain().getId());
+		if(currentActiveDomainTemplate!=null && !currentActiveDomainTemplate.getId().equals(domainTemplate.getId())){
+			throw new DynamoException("{active.domain.template.exists.error}");
+		}
 		domainTemplate = domainTemplateRepository.save(domainTemplate);
 		return domainTemplate;
 	}
@@ -72,6 +78,11 @@ public class DynamoServiceImpl implements DynamoService {
 	@Override
 	public DomainTemplate getDomainTemplateById(Long domainTemplateId) throws DynamoException {
 		return domainTemplateRepository.findOne(domainTemplateId);
+	}
+	
+	@Override
+	public DomainTemplate getActiveDomainTemplateOfDomain(Long domainId) throws DynamoException {
+		return domainTemplateRepository.findActiveDomainTemplateByDomainId(domainId);
 	}
 
 	@Override
@@ -129,6 +140,5 @@ public class DynamoServiceImpl implements DynamoService {
 	public PageTemplate getPageTemplateById(Long pageTemplateId) throws DynamoException {
 		return pageTemplateRepository.findOne(pageTemplateId);
 	}
-
 
 }
