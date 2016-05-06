@@ -7,6 +7,8 @@ cwd=$(pwd)
 docker stop DynamoBuild
 docker rm DynamoBuild
 
+
+echo mkdir -p ${cwd}/target
 mkdir -p ${cwd}/target
 
 echo docker run --name=DynamoBuild -v ${cwd}/target:/target -e GIT_REPO=https://github.com/ping2ravi/dynamo.git --net=host ping2ravi/maven-build-docker:latest
