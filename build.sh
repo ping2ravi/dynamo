@@ -12,7 +12,7 @@ echo mkdir -p ${cwd}/target
 mkdir -p ${cwd}/target
 
 echo docker run --name=DynamoBuild -v ${cwd}/target:/target -e GIT_REPO=https://github.com/ping2ravi/dynamo.git --net=host ping2ravi/maven-build-docker:latest
-docker run --name=DynamoBuild -e MVN_COMMAND="clean verify -P all-tests " -v ${cwd}/target:/var/target -v ~/.m2:/root/.m2/ -e GIT_REPO=https://github.com/ping2ravi/dynamo.git --net=host ping2ravi/maven-build-docker:latest
+docker run --name=DynamoBuild -e MVN_COMMAND="clean verify -P all-tests " -v /Users/ravi/work/github/dev-env/docker/jenkins/workspace/dynamo-build/target:/var/target -v ~/.m2:/root/.m2/ -e GIT_REPO=https://github.com/ping2ravi/dynamo.git --net=host ping2ravi/maven-build-docker:latest
  
 docker stop mysql-for-build-test
 docker rm mysql-for-build-test
