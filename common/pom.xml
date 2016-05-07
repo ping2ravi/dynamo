@@ -111,7 +111,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>dynamo</finalName>
+		<finalName>dynamo-common</finalName>
 		<filters>
 			<filter>../profiles/${build.profile.id}/config.properties</filter>
 		</filters>
@@ -293,6 +293,18 @@
 				<skip.unit.tests>true</skip.unit.tests>
 			</properties>
 		</profile>
+		<profile>
+			<id>myMavenRepo</id>
+			<activation>
+				<property>
+					<name>!doNotUseMyMavenRepo</name>
+				</property>
+			</activation>
+			<properties>
+				<myMavenRepo.read.url>https://mymavenrepo.com/repo/oHq5X2X0YeFp9db6wOjE/</myMavenRepo.read.url>
+				<myMavenRepo.write.url>https://mymavenrepo.com/repo/opCYzgMfVCawcvp0r322/</myMavenRepo.write.url>
+			</properties>
+		</profile>
 	</profiles>
 	<repositories>
 		<repository>
@@ -315,5 +327,13 @@
 			<url>http://repo.spring.io/milestone</url>
 		</pluginRepository>
 	</pluginRepositories>
+
+	<distributionManagement>
+		<repository>
+			<id>internal.repo</id>
+			<name>Ny Repository</name>
+			<url>https://mymavenrepo.com/repo/opCYzgMfVCawcvp0r322/</url>
+		</repository>
+	</distributionManagement>
 
 </project>

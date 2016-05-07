@@ -121,7 +121,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>dynamo</finalName>
+		<finalName>dynamo-core</finalName>
 		<filters>
 			<filter>../profiles/${build.profile.id}/config.properties</filter>
 		</filters>
