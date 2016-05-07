@@ -324,5 +324,13 @@
 			<url>http://repo.spring.io/milestone</url>
 		</pluginRepository>
 	</pluginRepositories>
+	
+	<distributionManagement>
+		<repository>
+			<id>internal.repo</id>
+			<name>Ny Repository</name>
+			<url>https://mymavenrepo.com/repo/opCYzgMfVCawcvp0r322/</url>
+		</repository>
+	</distributionManagement>
 
 </project>
