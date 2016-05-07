@@ -4,7 +4,7 @@
 
 	<groupId>com.next.dynamo</groupId>
 	<artifactId>dynamo-core</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>war</packaging>
 
 	<name>dynamo-core</name>
@@ -111,12 +111,12 @@
 		<dependency>
 			<groupId>com.next.dynamo</groupId>
 			<artifactId>dynamo-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.next.dynamo</groupId>
 			<artifactId>dynamo-domain</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 	</dependencies>
 

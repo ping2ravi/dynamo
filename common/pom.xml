@@ -4,7 +4,7 @@
 
 	<groupId>com.next.dynamo</groupId>
 	<artifactId>dynamo-common</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>dynamo-cmmon</name>
