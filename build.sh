@@ -8,14 +8,22 @@ docker stop DynamoBuild
 docker rm DynamoBuild
 
 
-echo mkdir -p ${cwd}/target
-mkdir -p ${cwd}/target
-
 BUILD_OUTPUT_DIRECTORY=/var/build-output
 
-echo docker run --name=DynamoBuild -e MVN_COMMAND="clean verify -P all-tests" -e BUILD_OUTPUT=$BUILD_OUTPUT_DIRECTORY -v $HOST_JENKINS_HOME/workspace/dynamo-build/build-output:$BUILD_OUTPUT_DIRECTORY -v ~/.m2:/root/.m2/ -e GIT_REPO=https://github.com/ping2ravi/dynamo.git --net=host ping2ravi/maven-build-docker:latest
+if [ -z "${HOST_JENKINS_HOME+xxx}" ];
+then
+HOST_JENKINS_HOME=${cwd}
+fi
 
-docker run --name=DynamoBuild -e MVN_COMMAND="clean verify -P all-tests" -e BUILD_OUTPUT=$BUILD_OUTPUT_DIRECTORY -v $HOST_JENKINS_HOME/workspace/dynamo-build/build-output:$BUILD_OUTPUT_DIRECTORY -v ~/.m2:/root/.m2/ -e GIT_REPO=https://github.com/ping2ravi/dynamo.git --net=host ping2ravi/maven-build-docker:latest
+profile=$1
+if [ -z "${profile+xxx}" ];
+then
+profile=all-tests
+fi
+
+echo docker run --name=DynamoBuild -e MVN_COMMAND="clean verify -P $profile" -e BUILD_OUTPUT=$BUILD_OUTPUT_DIRECTORY -v $HOST_JENKINS_HOME/workspace/dynamo-build/build-output:$BUILD_OUTPUT_DIRECTORY -v ~/.m2:/root/.m2/ -e GIT_REPO=https://github.com/ping2ravi/dynamo.git --net=host ping2ravi/maven-build-docker:latest
+
+docker run --name=DynamoBuild -e MVN_COMMAND="clean verify -P $profile" -e BUILD_OUTPUT=$BUILD_OUTPUT_DIRECTORY -v $HOST_JENKINS_HOME/workspace/dynamo-build/build-output:$BUILD_OUTPUT_DIRECTORY -v ~/.m2:/root/.m2/ -e GIT_REPO=https://github.com/ping2ravi/dynamo.git --net=host ping2ravi/maven-build-docker:latest
  
 docker stop mysql-for-build-test
 docker rm mysql-for-build-test
