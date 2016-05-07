@@ -10,6 +10,8 @@ import org.springframework.data.auditing.CurrentDateTimeProvider;
 import org.springframework.data.auditing.DateTimeProvider;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import com.next.dynamo.util.DynamoAssert;
+
 @SpringBootApplication
 public class App extends SpringBootServletInitializer {
 
@@ -32,6 +34,10 @@ public class App extends SpringBootServletInitializer {
 		LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
 		localValidatorFactoryBean.setValidationMessageSource(messageSource);
 		return localValidatorFactoryBean;
+	}
+	@Bean
+	public DynamoAssert dynamoAssert(){
+		return new DynamoAssert();
 	}
 
 	

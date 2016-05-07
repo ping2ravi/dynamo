@@ -44,6 +44,8 @@ public class DynamoServiceImpl implements DynamoService {
 	private UrlMappingRepository urlMappingRepository;
 	@Autowired
 	private UrlMappingPluginRepository urlMappingPluginRepository;
+	@Autowired
+	private DynamoAssert dynamoAssert;
 
 	@Override
 	public Page<Domain> getDomains(int pageNumber, int pageSize) throws DynamoException {
@@ -66,7 +68,7 @@ public class DynamoServiceImpl implements DynamoService {
 
 	@Override
 	public DomainTemplate saveDomainTemplate(DomainTemplate domainTemplate) throws DynamoException {
-		DynamoAssert.notNull(domainTemplate.getDomain(), "{domiantemplate.domain.empty.error}");
+		dynamoAssert.notNull(domainTemplate.getDomain(), "{domiantemplate.domain.empty.error}");
 		DomainTemplate currentActiveDomainTemplate = domainTemplateRepository.findActiveDomainTemplateByDomainId(domainTemplate.getDomain().getId());
 		if(currentActiveDomainTemplate!=null && !currentActiveDomainTemplate.getId().equals(domainTemplate.getId())){
 			throw new DynamoException("{active.domain.template.exists.error}");
