@@ -57,6 +57,10 @@ public class DynamoServiceImpl implements DynamoService {
 
 	@Override
 	public Domain saveDomain(Domain domain) throws DynamoException {
+		if(domain.getExtendedDomain() != null){
+			Domain extendedDomain = domainRepository.findOne(domain.getExtendedDomain().getId());
+			domain.setExtendedDomain(extendedDomain);
+		}
 		domain = domainRepository.save(domain);
 		return domain;
 	}
