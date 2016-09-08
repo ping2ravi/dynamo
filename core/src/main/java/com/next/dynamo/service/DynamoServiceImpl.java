@@ -7,7 +7,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.next.dynamo.exception.DynamoException;
 import com.next.dynamo.persistance.CustomDataPlugin;
@@ -27,7 +26,6 @@ import com.next.dynamo.persistance.repository.UrlMappingRepository;
 import com.next.dynamo.util.DynamoAssert;
 
 @Service
-@Transactional
 public class DynamoServiceImpl implements DynamoService {
 
 	@Autowired
