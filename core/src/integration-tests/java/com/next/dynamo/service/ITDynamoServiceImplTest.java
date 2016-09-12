@@ -43,9 +43,11 @@ public class ITDynamoServiceImplTest extends BaseServiceItest{
 		Page<Domain> fetchedDomain = dynamoService.getDomains(1, 10);
 		assertEquals(0, fetchedDomain.getContent().size());
 	}
+	
 	@Test
 	public void createOneDomainWithExtendedDomainAndRetrieveItById() throws DynamoException{
 		Domain extendedDomain = createDomain("www.emydomain.com", true, "Some Extended Setting", null, "www.emyalias.com");
+		extendedDomain = dynamoService.saveDomain(extendedDomain);
 		Domain domain = createDomain("www.mydomain.com", true, "Some Setting", extendedDomain, "www.myalias.com");
 		dynamoService.saveDomain(domain);
 		Page<Domain> fetchedDomain = dynamoService.getDomains(1, 10);

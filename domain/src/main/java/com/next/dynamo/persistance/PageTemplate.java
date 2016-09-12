@@ -11,16 +11,18 @@ import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @DiscriminatorValue(value = "page")
 @Getter 
 @Setter
+@ToString(callSuper=true, exclude={"urlMapping"})
 public class PageTemplate extends Template {
 
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
     @JoinColumn(name = "url_mapping_id", nullable = true)
-	@NotNull(message="{template.urlmapping.null.error}")
+	//@NotNull(message="{template.urlmapping.null.error}")
     private UrlMapping urlMapping;
     @Column(name = "url_mapping_id", insertable = false, updatable = false)
     private Long urlMappingId;

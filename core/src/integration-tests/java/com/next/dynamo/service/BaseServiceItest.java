@@ -7,11 +7,15 @@ import java.util.Set;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Sets;
+import com.next.dynamo.context.PersistanceServiceContext;
 import com.next.dynamo.exception.DynamoException;
 import com.next.dynamo.persistance.CustomDataPlugin;
 import com.next.dynamo.persistance.DataPlugin;
@@ -24,9 +28,10 @@ import com.next.dynamo.persistance.UrlMappingPlugin;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-@ComponentScan(basePackages = "com.next.dynamo")
-@EnableJpaRepositories(basePackages = "com.next.dynamo")
+@ContextConfiguration(classes={PersistanceServiceContext.class})
+//@EnableJpaRepositories(basePackages = "com.next.dynamo")
 @Transactional
+@DirtiesContext
 public class BaseServiceItest {
 
 	protected Domain createDomain(String name, boolean active, String setting, Domain extendDomain, String... aliases) {
@@ -115,12 +120,16 @@ public class BaseServiceItest {
 	}
 
 	protected UrlMapping createValidUrlMappingInDatabase(DynamoService dynamoService) throws DynamoException {
+		return createValidUrlMappingInDatabase(dynamoService, "/home");
+	}
+	protected UrlMapping createValidUrlMappingInDatabase(DynamoService dynamoService, String url, String...aliases) throws DynamoException {
 		Domain domain = createValidDomainInDatabase(dynamoService);
 
-		UrlMapping urlMapping = createUrlMapping("/home", true, 60, null, true, domain, "index.html");
+		UrlMapping urlMapping = createUrlMapping(url, true, 60, null, true, domain, aliases);
 		urlMapping = dynamoService.saveUrlMapping(urlMapping);
 		return urlMapping;
 	}
+	
 
 	protected UrlMappingPlugin createUrlMappingPlugin(DataPlugin dataPlugin, String setting, UrlMapping urlMapping) {
 		UrlMappingPlugin urlMappingPlugin = new UrlMappingPlugin();

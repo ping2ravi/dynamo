@@ -16,6 +16,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "templates")
@@ -23,6 +24,7 @@ import lombok.Setter;
 @DiscriminatorColumn(name = "template_type")
 @Getter 
 @Setter
+@ToString(callSuper=true, exclude={"domainTemplate"})
 public class Template extends BaseEntity{
 
 	@Column(name = "html_content", columnDefinition = "LONGTEXT")

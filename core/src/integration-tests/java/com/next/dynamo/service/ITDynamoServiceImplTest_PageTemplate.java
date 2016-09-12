@@ -24,6 +24,19 @@ public class ITDynamoServiceImplTest_PageTemplate extends BaseServiceItest{
 		PageTemplate dbPageTemplate = dynamoService.getPageTemplateById(pageTemplate.getId());
 		assertEqualPageTemplate(pageTemplate, dbPageTemplate);
 	}
+		
+	
+	@Test
+	public void testCreateAPageTemplateWithvalidData_PathStartsWithSlash() throws DynamoException{
+		DomainTemplate domainTemplate = createValidDomainTemplateInDatabase(dynamoService);
+		UrlMapping urlMapping = createValidUrlMappingInDatabase(dynamoService);
+		PageTemplate pageTemplate = createPageTemplate("/home/page.html", "Html Content", domainTemplate, urlMapping);
+		
+		pageTemplate = dynamoService.savePageTemplate(pageTemplate);
+		
+		PageTemplate dbPageTemplate = dynamoService.getPageTemplateById(pageTemplate.getId());
+		assertEqualPageTemplate(pageTemplate, dbPageTemplate);
+	}
 	
 
 }

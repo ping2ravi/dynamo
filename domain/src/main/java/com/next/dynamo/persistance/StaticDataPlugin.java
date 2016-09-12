@@ -8,11 +8,13 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @DiscriminatorValue(value = "StaticData")
 @Getter 
 @Setter
+@ToString(callSuper=true)
 public class StaticDataPlugin extends DataPlugin {
 
     @Column(name = "content", columnDefinition = "LONGTEXT")
@@ -25,11 +27,6 @@ public class StaticDataPlugin extends DataPlugin {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    @Override
-    public String toString() {
-        return "StaticDataPlugin [content=" + content + ", toString()=" + super.toString() + "]";
     }
 
 }

@@ -5,7 +5,6 @@
 	<groupId>com.next.dynamo</groupId>
 	<artifactId>dynamo-core</artifactId>
 	<version>0.0.1</version>
-	<packaging>war</packaging>
 
 	<name>dynamo-core</name>
 	<url>http://maven.apache.org</url>
@@ -66,6 +65,10 @@
 			<version>19.0</version>
 		</dependency>
 		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.mitchellbosecke</groupId>
 			<artifactId>pebble</artifactId>
 			<version>${pebble.version}</version>
@@ -79,6 +82,10 @@
 			<groupId>org.eclipse.jgit</groupId>
 			<artifactId>org.eclipse.jgit</artifactId>
 			<version>4.3.0.201604071810-r</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
 		</dependency>
 
 
@@ -324,11 +331,11 @@
 			<url>http://repo.spring.io/milestone</url>
 		</pluginRepository>
 	</pluginRepositories>
-	
+
 	<distributionManagement>
 		<repository>
 			<id>internal.repo</id>
-			<name>Ny Repository</name>
+			<name>My Repository</name>
 			<url>https://mymavenrepo.com/repo/opCYzgMfVCawcvp0r322/</url>
 		</repository>
 	</distributionManagement>

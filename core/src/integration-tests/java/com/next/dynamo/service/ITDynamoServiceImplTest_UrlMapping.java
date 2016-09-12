@@ -79,13 +79,35 @@ public class ITDynamoServiceImplTest_UrlMapping extends BaseServiceItest{
 		urlMappingPlugin.setDataPlugin(dataPlugin);
 		urlMappingPlugin.setSetting(setting);
 		urlMappingPlugin = dynamoService.saveUrlMappingPlugin(urlMappingPlugin);
-		//Needed to set as Spring doesn't save Data in database so when we retrieve this list may come as null
-		urlMapping.setUrlMappingPlugins(Lists.asList(urlMappingPlugin, new UrlMappingPlugin[0]));
 		
 		UrlMapping dbUrlMapping = dynamoService.getUrlMappingById(urlMapping.getId());
 		assertEqualUrlMapping(urlMapping, dbUrlMapping);
-		List<UrlMappingPlugin> dbUrlMappingPlugins = dbUrlMapping.getUrlMappingPlugins();
+		List<UrlMappingPlugin> dbUrlMappingPlugins = dynamoService.findUrlMappingPluginByUrlMapping(dbUrlMapping.getId());;
 		Assert.assertEquals(1, dbUrlMappingPlugins.size());
 	}
+	@Test
+	public void testCreateAUrlMappingAndGetItByDomainId() throws DynamoException{
+		Domain domain = createValidDomainInDatabase(dynamoService);
+		
+		UrlMapping urlMapping = createUrlMapping("/home", true, 60, null, true, domain, "index.html");
+		urlMapping = dynamoService.saveUrlMapping(urlMapping);
+		
+		List<UrlMapping> dbUrlMappings = dynamoService.getUrlMappingByDomainId(domain.getId());
+		assertEqualUrlMapping(urlMapping, dbUrlMappings.get(0));
+	}
+	@Test
+	public void testCreateTwoUrlMappingAndGetItByDomainId() throws DynamoException{
+		Domain domain = createValidDomainInDatabase(dynamoService);
+		
+		UrlMapping urlMapping1 = createUrlMapping("/home", true, 60, null, true, domain, "index.html");
+		urlMapping1 = dynamoService.saveUrlMapping(urlMapping1);
+		UrlMapping urlMapping2 = createUrlMapping("/zhome", true, 60, null, true, domain, "zindex.html");
+		urlMapping2 = dynamoService.saveUrlMapping(urlMapping2);
+		
+		List<UrlMapping> dbUrlMappings = dynamoService.getUrlMappingByDomainId(domain.getId());
+		assertEqualUrlMapping(urlMapping1, dbUrlMappings.get(0));
+		assertEqualUrlMapping(urlMapping2, dbUrlMappings.get(1));
+	}
+	
 
 }

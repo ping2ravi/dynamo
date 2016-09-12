@@ -19,11 +19,13 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "url_mapping")
 @Getter 
 @Setter
+@ToString(callSuper=true, exclude={"domain"})
 public class UrlMapping extends BaseEntity {
 
     @Column(name = "url_pattern")
@@ -51,9 +53,6 @@ public class UrlMapping extends BaseEntity {
     @Column(name = "http_cache_time_seconds")
     private Integer httpCacheTimeSeconds;
 
-    @OneToMany(mappedBy = "urlMapping", fetch = FetchType.LAZY)
-    private List<UrlMappingPlugin> urlMappingPlugins;
-    
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "domain_id")
     @NotNull(message="{urlmapping.domain.null.error}")

@@ -1,5 +1,7 @@
 package com.next.dynamo.service;
 
+import java.util.List;
+
 import javax.validation.ConstraintViolationException;
 
 import org.junit.Before;
@@ -131,5 +133,35 @@ public class ITDynamoServiceImplTest_DomainTemplate extends BaseServiceItest{
 		dynamoService.saveDomainTemplate(domainTemplate);
 		
 	}
+	
+	@Test
+	public void createADomainTemplateAndGetitByDomainId() throws DynamoException{
+		Domain domain = createDomain("www.test.com", true, "{Some Settings}", null);
+		domain = dynamoService.saveDomain(domain);
+		
+		DomainTemplate domainTemplate = createDomainTemplate("My Template", "master", "git Repository", true, domain);
+		domainTemplate = dynamoService.saveDomainTemplate(domainTemplate);
+		
+		List<DomainTemplate> dbDomainTemplates = dynamoService.getDomainTemplatesOfDomain(domain.getId());
+		
+		assertEqualDomainTemplate(domainTemplate, dbDomainTemplates.get(0));
+	}
 
+	@Test
+	public void createTwoDomainTemplateAndGetitByDomainId() throws DynamoException{
+		Domain domain = createDomain("www.test.com", true, "{Some Settings}", null);
+		domain = dynamoService.saveDomain(domain);
+		
+		DomainTemplate domainTemplate1 = createDomainTemplate("My Template", "master", "git Repository", true, domain);
+		domainTemplate1 = dynamoService.saveDomainTemplate(domainTemplate1);
+		
+		DomainTemplate domainTemplate2 = createDomainTemplate("ZMy Template", "master", "git Repository", false, domain);
+		domainTemplate2 = dynamoService.saveDomainTemplate(domainTemplate2);
+		
+		List<DomainTemplate> dbDomainTemplates = dynamoService.getDomainTemplatesOfDomain(domain.getId());
+		
+		assertEqualDomainTemplate(domainTemplate1, dbDomainTemplates.get(0));
+		assertEqualDomainTemplate(domainTemplate2, dbDomainTemplates.get(1));
+
+	}
 }

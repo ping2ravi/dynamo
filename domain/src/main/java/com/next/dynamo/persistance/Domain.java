@@ -16,11 +16,13 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "domain")
 @Getter 
 @Setter
+@ToString(callSuper=true, exclude={"extendedDomain"})
 public class Domain extends BaseEntity {
 
     @Column(name = "name")

@@ -10,11 +10,13 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "url_mapping_plugin")
 @Getter 
 @Setter
+@ToString(callSuper=true, exclude={"dataPlugin","urlMapping"})
 public class UrlMappingPlugin extends BaseEntity{
 
 	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )

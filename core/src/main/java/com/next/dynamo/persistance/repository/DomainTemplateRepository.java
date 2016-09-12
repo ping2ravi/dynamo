@@ -1,5 +1,7 @@
 package com.next.dynamo.persistance.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -9,5 +11,7 @@ public interface DomainTemplateRepository extends JpaRepository<DomainTemplate, 
 	
 	@Query("select D from DomainTemplate D where D.domainId=?1 and active=true")
 	DomainTemplate findActiveDomainTemplateByDomainId(Long domainId);
+	
+	List<DomainTemplate> findDomainTemplateByDomainId(Long domainId);
 
 }

@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "data_plugin")
@@ -18,22 +19,13 @@ import lombok.Setter;
 @DiscriminatorColumn(name = "plugin_type")
 @Getter 
 @Setter
+@ToString(callSuper=true)
 public class DataPlugin extends BaseEntity{
-
 	
     @Column(name = "disabled")
     private boolean disabled;
     @Column(name = "plugin_name")
     @NotBlank(message="{dataplugin.pluginname.empty.error}")
     private String pluginName;
-
-    @Override
-    public String toString() {
-        return "DataPlugin [id=" + id + ", ver=" + ver + ", dateCreated=" + dateCreated + ", dateModified=" + dateModified + ", creatorId=" + creatorId + ", modifierId=" + modifierId + ", disabled="
-                + disabled + ", pluginName=" + pluginName + "]";
-    }
-	
-
-
 	
 }

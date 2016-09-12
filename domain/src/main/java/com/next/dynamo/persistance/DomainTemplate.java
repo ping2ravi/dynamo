@@ -12,11 +12,13 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "domain_template")
 @Getter 
 @Setter
+@ToString(callSuper=true,exclude={"domain"})
 public class DomainTemplate extends BaseEntity {
 
     @Column(name = "name")

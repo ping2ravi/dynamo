@@ -5,5 +5,7 @@ import com.next.dynamo.exception.DynamoException;
 public interface GitService {
 
 	void refreshDomainFromGit(Long domainId) throws DynamoException;
+	
+	void refreshDomainFromGit(Long domainId, Long domainTemplateId) throws DynamoException;
 
 }

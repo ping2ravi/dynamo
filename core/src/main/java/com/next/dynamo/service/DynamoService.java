@@ -1,5 +1,7 @@
 package com.next.dynamo.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 
 import com.next.dynamo.exception.DynamoException;
@@ -25,6 +27,8 @@ public interface DynamoService {
 	
 	DomainTemplate getActiveDomainTemplateOfDomain(Long domainId) throws DynamoException;
 	
+	List<DomainTemplate> getDomainTemplatesOfDomain(Long domainId) throws DynamoException;
+	
 	CustomDataPlugin saveCustomDataPlugin(CustomDataPlugin customDataPlugin) throws DynamoException;
 
 	CustomDataPlugin getCustomDataPluginById(Long customDataPluginId) throws DynamoException;
@@ -37,9 +41,15 @@ public interface DynamoService {
 
 	UrlMapping getUrlMappingById(Long urlMappingId) throws DynamoException;
 	
+	List<UrlMapping> getUrlMappingByDomainId(Long domainId) throws DynamoException;
+	
 	UrlMappingPlugin saveUrlMappingPlugin(UrlMappingPlugin urlMappingPlugin) throws DynamoException;
+
+	List<UrlMappingPlugin> findUrlMappingPluginByUrlMapping(Long urlMappingId) throws DynamoException;
 
 	PageTemplate savePageTemplate(PageTemplate pageTemplate) throws DynamoException;
 
 	PageTemplate getPageTemplateById(Long pageTemplateId) throws DynamoException;
+	
+	List<PageTemplate> getPageTemplatesByDomainTemplateId(Long domainTemplateId) throws DynamoException;
 }
