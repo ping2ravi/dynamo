@@ -44,12 +44,12 @@ public class PluginManagerImpl implements PluginManager {
     private volatile boolean isInitialized = false;
 
     @Override
-    public void refresh() {
+    public void refresh() throws DynamoException {
         isInitialized = false;
         init();
     }
 
-    public void init() {
+    public void init() throws DynamoException {
         if (isInitialized) {
             return;
         }
@@ -57,8 +57,6 @@ public class PluginManagerImpl implements PluginManager {
             if(isInitialized){
                 return;
             }
-            try {
-
                 JsonParser jsonParser = new JsonParser();
 
                 List<UrlMapping> urlMappings = dataPluginService.getAllUrlMappings();
@@ -75,18 +73,16 @@ public class PluginManagerImpl implements PluginManager {
                         oneWebDataPlugin = createDataPlugin(oneUrlMappingPlugin.getDataPlugin(), jsonParser);
                         if (oneWebDataPlugin != null) {
                             dataPlugins.add(oneWebDataPlugin);
+                            String setting = oneUrlMappingPlugin.getSetting();
+                            oneWebDataPlugin.setSettings(setting);
                         }
-                        String setting = oneUrlMappingPlugin.getSetting();
-                        oneWebDataPlugin.setSettings(setting);
+                        
                     }
                     PatternUrlMapping onePatternUrlMapping = new PatternUrlMapping(oneUrlMapping, dataPlugins);
                     urlPatterns.add(onePatternUrlMapping);
                 }
                 //loadGlobalDataPlugins(jsonParser);
                 isInitialized = true;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
         }
 
@@ -155,9 +151,6 @@ public class PluginManagerImpl implements PluginManager {
                 }
             }
             List<WebDataPlugin> plugins = patternUrlMapping.getDataPlugins();
-            if (plugins == null) {
-                return;
-            }
             for (WebDataPlugin oneWebDataPlugin : plugins) {
                 oneWebDataPlugin.applyPlugin(httpServletRequest, httpServletResponse, modelAndView);
             }

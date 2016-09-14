@@ -11,6 +11,6 @@ public interface PluginManager {
 	void applyAllPluginsForUrl(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 			ModelAndView modelAndView, boolean addData, boolean applyGenericPlugins) throws DynamoException;
 
-	void refresh();
+	void refresh() throws DynamoException ;
 
 }

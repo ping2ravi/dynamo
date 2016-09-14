@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +32,7 @@ import com.next.dynamo.persistance.UrlMappingPlugin;
 @ContextConfiguration(classes={PersistanceServiceContext.class})
 //@EnableJpaRepositories(basePackages = "com.next.dynamo")
 @Transactional
-@DirtiesContext
+@DirtiesContext(classMode=ClassMode.AFTER_CLASS)
 public class BaseServiceItest {
 
 	protected Domain createDomain(String name, boolean active, String setting, Domain extendDomain, String... aliases) {

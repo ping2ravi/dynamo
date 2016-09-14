@@ -7,9 +7,13 @@ import java.util.regex.Pattern;
 
 import com.next.dynamo.persistance.UrlMapping;
 
+import lombok.Getter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Getter
+@ToString
 public class PatternUrlMapping {
     private final UrlMapping urlMapping;
     private Pattern pattern;
@@ -56,11 +60,6 @@ public class PatternUrlMapping {
 
     public UrlMapping getUrlMapping() {
         return urlMapping;
-    }
-
-    @Override
-    public String toString() {
-        return "CustomUrlMapping [urlMapping=" + urlMapping + ", pattern=" + pattern + ", parameters=" + parameters + "]";
     }
 
     @Override
