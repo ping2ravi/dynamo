@@ -143,6 +143,11 @@ public class DynamoServiceImpl implements DynamoService {
 	public List<UrlMapping> getUrlMappingByDomainId(Long domainId) throws DynamoException{
 		return urlMappingRepository.findUrlMappingByDomainId(domainId);
 	}
+	
+	@Override
+    public List<UrlMapping> getAllUrlMappings() throws DynamoException {
+        return urlMappingRepository.findAll();
+    }
 
 	@Override
 	public UrlMappingPlugin saveUrlMappingPlugin(UrlMappingPlugin urlMappingPlugin) throws DynamoException {

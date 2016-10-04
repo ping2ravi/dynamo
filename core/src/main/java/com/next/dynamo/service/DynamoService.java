@@ -43,6 +43,8 @@ public interface DynamoService {
 	
 	List<UrlMapping> getUrlMappingByDomainId(Long domainId) throws DynamoException;
 	
+	List<UrlMapping> getAllUrlMappings() throws DynamoException;
+	
 	UrlMappingPlugin saveUrlMappingPlugin(UrlMappingPlugin urlMappingPlugin) throws DynamoException;
 
 	List<UrlMappingPlugin> findUrlMappingPluginByUrlMapping(Long urlMappingId) throws DynamoException;

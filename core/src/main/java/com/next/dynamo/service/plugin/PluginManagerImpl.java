@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,8 +30,6 @@ import com.next.dynamo.service.DynamoService;
 @Transactional
 public class PluginManagerImpl implements PluginManager {
 
-    @Autowired
-    private DataPluginService dataPluginService;
     @Autowired
     private BeanFactory springBeanFactory;
     @Autowired
@@ -59,7 +55,7 @@ public class PluginManagerImpl implements PluginManager {
             }
                 JsonParser jsonParser = new JsonParser();
 
-                List<UrlMapping> urlMappings = dataPluginService.getAllUrlMappings();
+                List<UrlMapping> urlMappings = dynamoService.getAllUrlMappings();
                 urlPatterns = new ArrayList<PatternUrlMapping>();
                 List<WebDataPlugin> dataPlugins;
                 WebDataPlugin oneWebDataPlugin;
