@@ -16,6 +16,7 @@ import com.next.dynamo.persistance.CustomDataPlugin;
 import com.next.dynamo.persistance.Domain;
 import com.next.dynamo.persistance.DomainTemplate;
 import com.next.dynamo.persistance.PageTemplate;
+import com.next.dynamo.persistance.PartTemplate;
 import com.next.dynamo.persistance.StaticDataPlugin;
 import com.next.dynamo.persistance.UrlMapping;
 import com.next.dynamo.persistance.UrlMappingPlugin;
@@ -23,6 +24,7 @@ import com.next.dynamo.persistance.repository.CustomDataPluginRepository;
 import com.next.dynamo.persistance.repository.DomainRepository;
 import com.next.dynamo.persistance.repository.DomainTemplateRepository;
 import com.next.dynamo.persistance.repository.PageTemplateRepository;
+import com.next.dynamo.persistance.repository.PartTemplateRepository;
 import com.next.dynamo.persistance.repository.StaticDataPluginRepository;
 import com.next.dynamo.persistance.repository.UrlMappingPluginRepository;
 import com.next.dynamo.persistance.repository.UrlMappingRepository;
@@ -38,6 +40,8 @@ public class DynamoServiceImpl implements DynamoService {
 	private DomainTemplateRepository domainTemplateRepository;
 	@Autowired
 	private PageTemplateRepository pageTemplateRepository;
+	@Autowired
+	private PartTemplateRepository partTemplateRepository;
 	@Autowired
 	private CustomDataPluginRepository customDataPluginRepository;
 	@Autowired
@@ -174,6 +178,16 @@ public class DynamoServiceImpl implements DynamoService {
 	@Override
 	public List<PageTemplate> getPageTemplatesByDomainTemplateId(Long domainTemplateId) throws DynamoException {
 		return pageTemplateRepository.findPageTemplatesByDomainTemplateId(domainTemplateId);
+	}
+
+	@Override
+	public List<PartTemplate> findPartTemplateByDomainTemplate(Long domainTemplateId) throws DynamoException {
+		return partTemplateRepository.findPartTemplatesByDomainTemplateId(domainTemplateId);
+	}
+
+	@Override
+	public PartTemplate savePartTemplate(PartTemplate partTemplate) throws DynamoException {
+		return partTemplateRepository.save(partTemplate);
 	}
 
 }

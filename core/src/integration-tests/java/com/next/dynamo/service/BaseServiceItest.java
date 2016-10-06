@@ -2,6 +2,9 @@ package com.next.dynamo.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
 import java.util.Set;
 
 import org.junit.runner.RunWith;
@@ -23,6 +26,7 @@ import com.next.dynamo.persistance.DataPlugin;
 import com.next.dynamo.persistance.Domain;
 import com.next.dynamo.persistance.DomainTemplate;
 import com.next.dynamo.persistance.PageTemplate;
+import com.next.dynamo.persistance.PartTemplate;
 import com.next.dynamo.persistance.StaticDataPlugin;
 import com.next.dynamo.persistance.UrlMapping;
 import com.next.dynamo.persistance.UrlMappingPlugin;
@@ -191,6 +195,46 @@ public class BaseServiceItest {
 		pageTemplate.setHtmlContent(htmlContent);
 		pageTemplate.setUrlMapping(urlMapping);
 		return pageTemplate;
+	}
+	
+	protected PageTemplate createPageTemplateFromFile(String gitPath, String filePath, DomainTemplate domainTemplate, UrlMapping urlMapping, PartTemplate mainPartTemplate) throws IOException{
+		
+		String htmlContent = readFile(filePath);
+		PageTemplate pageTemplate = new PageTemplate();
+		pageTemplate.setDomainTemplate(domainTemplate);
+		pageTemplate.setGitFilePath(gitPath);
+		pageTemplate.setHtmlContent(htmlContent);
+		pageTemplate.setUrlMapping(urlMapping);
+		pageTemplate.setMainTemplate(mainPartTemplate);
+		return pageTemplate;
+	}
+	protected PartTemplate createPartTemplateFromFile(String gitPath, String filePath, String partName, DomainTemplate domainTemplate) throws IOException{
+		
+		String htmlContent = readFile(filePath);
+		PartTemplate partTemplate = new PartTemplate();
+		partTemplate.setDomainTemplate(domainTemplate);
+		partTemplate.setGitFilePath(gitPath);
+		partTemplate.setHtmlContent(htmlContent);
+		partTemplate.setPartName(partName);
+		return partTemplate;
+	}
+	
+	private String readFile(String filePath) throws IOException {
+
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource(filePath).getFile());
+	    StringBuilder fileContents = new StringBuilder((int)file.length());
+	    Scanner scanner = new Scanner(file);
+	    String lineSeparator = System.getProperty("line.separator");
+
+	    try {
+	        while(scanner.hasNextLine()) {
+	            fileContents.append(scanner.nextLine() + lineSeparator);
+	        }
+	        return fileContents.toString();
+	    } finally {
+	        scanner.close();
+	    }
 	}
 	
 	protected void assertEqualPageTemplate(PageTemplate exepected, PageTemplate actual) {

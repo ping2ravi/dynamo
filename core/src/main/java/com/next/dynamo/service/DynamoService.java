@@ -9,6 +9,7 @@ import com.next.dynamo.persistance.CustomDataPlugin;
 import com.next.dynamo.persistance.Domain;
 import com.next.dynamo.persistance.DomainTemplate;
 import com.next.dynamo.persistance.PageTemplate;
+import com.next.dynamo.persistance.PartTemplate;
 import com.next.dynamo.persistance.StaticDataPlugin;
 import com.next.dynamo.persistance.UrlMapping;
 import com.next.dynamo.persistance.UrlMappingPlugin;
@@ -52,6 +53,10 @@ public interface DynamoService {
 	PageTemplate savePageTemplate(PageTemplate pageTemplate) throws DynamoException;
 
 	PageTemplate getPageTemplateById(Long pageTemplateId) throws DynamoException;
+	
+	PartTemplate savePartTemplate(PartTemplate partTemplate) throws DynamoException;
+	
+	List<PartTemplate> findPartTemplateByDomainTemplate(Long domainTemplateId) throws DynamoException;
 	
 	List<PageTemplate> getPageTemplatesByDomainTemplateId(Long domainTemplateId) throws DynamoException;
 }

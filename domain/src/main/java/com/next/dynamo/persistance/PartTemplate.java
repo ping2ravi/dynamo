@@ -17,5 +17,8 @@ public class PartTemplate extends Template {
 
     @Column(name = "part_name")
     private String partName;
+    
+    @Column(name = "part_type")
+    private String partType;
 
 }

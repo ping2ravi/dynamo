@@ -55,7 +55,7 @@ public class GitServiceImpl implements GitService {
 			File localPath = File.createTempFile("/tmp/TestGitRepository/", "");
 			localPath.delete();
 			// then clone
-			System.out.println("Cloning from " + gitRepository + " : " + gitBranch + " to " + localPath);
+			log.info("Cloning from {} : {} to {}", gitRepository ,gitBranch,  localPath);
 			try (Git result = Git.cloneRepository().setURI(gitRepository).setDirectory(localPath).setBranch(gitBranch)
 					.call()) {
 				// Note: the call() returns an opened repository already which
@@ -68,10 +68,12 @@ public class GitServiceImpl implements GitService {
 				}
 				result.close();
 			}
+			localPath.delete();
 
 		} catch (Exception e) {
 			throw new DynamoException(e);
 		}
+		
 
 	}
 
