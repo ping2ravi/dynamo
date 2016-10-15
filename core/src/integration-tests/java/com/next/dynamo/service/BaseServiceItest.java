@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Sets;
-import com.next.dynamo.context.PersistanceServiceContext;
+import com.next.dynamo.context.DynamoServiceContext;
 import com.next.dynamo.exception.DynamoException;
 import com.next.dynamo.persistance.CustomDataPlugin;
 import com.next.dynamo.persistance.DataPlugin;
@@ -33,7 +33,7 @@ import com.next.dynamo.persistance.UrlMappingPlugin;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-@ContextConfiguration(classes={PersistanceServiceContext.class})
+@ContextConfiguration(classes={DynamoServiceContext.class})
 //@EnableJpaRepositories(basePackages = "com.next.dynamo")
 @Transactional
 @DirtiesContext(classMode=ClassMode.AFTER_CLASS)

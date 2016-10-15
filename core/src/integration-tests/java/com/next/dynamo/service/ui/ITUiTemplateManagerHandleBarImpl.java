@@ -253,7 +253,10 @@ public class ITUiTemplateManagerHandleBarImpl extends BaseServiceItest{
 		Template compiledTemplate = uiTemplateManagerHandleBarImpl.getCompiledTemplate(httpServletRequest, httpServletResponse);
 		
 		Assert.assertNotNull(compiledTemplate);
-		Assert.assertEquals("No Template Defined", compiledTemplate.apply(""));
+		String finalHtml = compiledTemplate.apply("");
+		Assert.assertTrue(finalHtml.contains("<meta charset=\"UTF-8\">"));
+		Assert.assertTrue(finalHtml.contains("<title>I am head title</title>"));
+		Assert.assertTrue(finalHtml.contains("<b>I am Body</b>"));
 	}
 
 }

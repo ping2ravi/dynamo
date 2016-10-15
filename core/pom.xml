@@ -39,7 +39,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.0.M2</version>
+		<version>1.4.1.RELEASE</version>
 	</parent>
 	<dependencies>
 		<dependency>
@@ -91,6 +91,11 @@
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.next.dynamo</groupId>
+			<artifactId>dynamo-common</artifactId>
+			<version>0.0.1</version>
 		</dependency>
 
 
@@ -263,6 +268,9 @@
 					<excludes>
 						<exclude>**/IT*.java</exclude>
 					</excludes>
+					<additionalClasspathElements>
+						<additionalClasspathElement>src/integration-tests/resources</additionalClasspathElement>
+					</additionalClasspathElements>
 				</configuration>
 			</plugin>
 			<!-- Used for integration tests -->
