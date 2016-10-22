@@ -16,8 +16,11 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.StringToCollectionConverter;
 import com.vaadin.event.ShortcutAction;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Button;
@@ -30,7 +33,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 @SpringComponent
 @UIScope
-public class DomainEditor extends FormLayout {
+public class DomainEditor extends FormLayout{
 
 	private static final long serialVersionUID = 1L;
 
@@ -152,5 +155,4 @@ public class DomainEditor extends FormLayout {
 		delete.addClickListener(e -> h.onChange());
 		cancel.addClickListener(e -> h.onChange());
 	}
-
 }

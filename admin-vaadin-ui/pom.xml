@@ -17,9 +17,12 @@
 	</parent>
 
 	<properties>
-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<maven.repo.read.url>https://mymavenrepo.com/repo/oHq5X2X0YeFp9db6wOjE/</maven.repo.read.url>
+        <vaadin.version>7.6.4</vaadin.version>
+        <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
+
+        <maven.repo.read.url>https://mymavenrepo.com/repo/oHq5X2X0YeFp9db6wOjE/</maven.repo.read.url>
 	</properties>
 
 	<dependencyManagement>
@@ -27,7 +30,7 @@
 			<dependency>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-bom</artifactId>
-				<version>7.6.4</version>
+                <version>${vaadin.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -50,7 +53,6 @@
 			<groupId>com.next.dynamo</groupId>
 			<artifactId>dynamo-core</artifactId>
 			<version>0.0.1</version>
-			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>com.next.dynamo</groupId>
@@ -72,6 +74,10 @@
 		<repository>
 			<id>myMavenRepo.read</id>
 			<url>${maven.repo.read.url}</url>
+        </repository>
+        <repository>
+            <id>vaadin-addons</id>
+            <url>http://maven.vaadin.com/vaadin-addons</url>
 		</repository>
 	</repositories>
 </project>

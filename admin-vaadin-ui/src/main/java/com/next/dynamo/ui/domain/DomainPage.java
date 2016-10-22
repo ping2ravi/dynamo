@@ -6,9 +6,13 @@ import org.springframework.util.StringUtils;
 
 import com.next.dynamo.persistance.Domain;
 import com.next.dynamo.service.DynamoService;
+import com.next.dynamo.ui.view.NavigableView;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
@@ -17,9 +21,10 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-@SpringComponent
-@UIScope
-public class DomainPage extends VerticalLayout {
+//@SpringComponent
+//@UIScope
+@SpringView(name = "domain")
+public class DomainPage extends VerticalLayout implements NavigableView{
 
 	private static final long serialVersionUID = 1L;
 
@@ -108,6 +113,16 @@ public class DomainPage extends VerticalLayout {
 			ex.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		init();
+	}
+
+	@Override
+	public String getNaviagationName() {
+		return "domain";
 	}
 
 }

@@ -25,9 +25,11 @@
 
 	</properties>
 	<!-- To build a proper war file , follow these steps https://docs.spring.io/spring-boot/docs/current/reference/html/howto-traditional-deployment.html 
-		1) <packaging>war</packaging> 2) Add <dependencies> <dependency> <groupId>org.springframework.boot</groupId> 
+		1) <packaging>war</packaging> 
+		2) Add <dependencies> <dependency> <groupId>org.springframework.boot</groupId> 
 		<artifactId>spring-boot-starter-tomcat</artifactId> <scope>provided</scope> 
-		</dependency> </dependencies> 3) Main application class should be like this 
+		</dependency> </dependencies> 
+		3) Main application class should be like this 
 		@SpringBootApplication public class Application extends SpringBootServletInitializer 
 		{ @Override protected SpringApplicationBuilder configure(SpringApplicationBuilder 
 		application) { This function generate relevant information for Tomcat or 
