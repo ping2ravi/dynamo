@@ -1,15 +1,5 @@
 package com.next.dynamo.service.plugin;
 
-import java.util.Map;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.google.gson.JsonObject;
 import com.next.dynamo.exception.DynamoException;
 import com.next.dynamo.persistance.CustomDataPlugin;
@@ -18,6 +8,14 @@ import com.next.dynamo.persistance.UrlMapping;
 import com.next.dynamo.persistance.UrlMappingPlugin;
 import com.next.dynamo.service.BaseServiceItest;
 import com.next.dynamo.service.DynamoService;
+import org.junit.Assert;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Map;
 
 public class ITPluginManagerImplTest extends BaseServiceItest{
 
@@ -78,8 +76,8 @@ public class ITPluginManagerImplTest extends BaseServiceItest{
 	public void test_applyAllPluginsForUrl_whenApplyPluginsOnoneOfAlias() throws DynamoException{
 		final String customDataPluginName = "PluginOne";
 		final String staticDataPluginName = "SomeDataPlugin";
-		final String url = "/index.html";
-		final String alias = "/home";
+        final String url = "/index.templates";
+        final String alias = "/home";
 		UrlMapping urlMapping = createValidUrlMappingInDatabase(dynamoService, url, alias);
 
 		CustomDataPlugin customDataPlugin = createCustomDataPlugin("com.next.dynamo.service.plugin.impl.PluginOne", false, customDataPluginName);
@@ -146,8 +144,8 @@ public class ITPluginManagerImplTest extends BaseServiceItest{
 	public void test_applyAllPluginsForUrl_withApiOnUrlPattern() throws DynamoException{
 		final String customDataPluginName = "PluginOne";
 		final String staticDataPluginName = "SomeDataPlugin";
-		final String url = "/index.html";
-		final String alias = "/home";
+        final String url = "/index.templates";
+        final String alias = "/home";
 		UrlMapping urlMapping = createValidUrlMappingInDatabase(dynamoService, url, alias);
 
 		CustomDataPlugin customDataPlugin = createCustomDataPlugin("com.next.dynamo.service.plugin.impl.PluginOne", false, customDataPluginName);
@@ -189,8 +187,8 @@ public class ITPluginManagerImplTest extends BaseServiceItest{
 	public void test_applyAllPluginsForUrl_withApiOnUrlAlias() throws DynamoException{
 		final String customDataPluginName = "PluginOne";
 		final String staticDataPluginName = "SomeDataPlugin";
-		final String url = "/index.html";
-		final String alias = "/home";
+        final String url = "/index.templates";
+        final String alias = "/home";
 		UrlMapping urlMapping = createValidUrlMappingInDatabase(dynamoService, url, alias);
 
 		CustomDataPlugin customDataPlugin = createCustomDataPlugin("com.next.dynamo.service.plugin.impl.PluginOne", false, customDataPluginName);
@@ -232,8 +230,8 @@ public class ITPluginManagerImplTest extends BaseServiceItest{
 	public void test_applyAllPluginsForUrl_forDisabledPlugin() throws DynamoException{
 		final String customDataPluginName = "PluginOne";
 		final String staticDataPluginName = "SomeDataPlugin";
-		final String url = "/index.html";
-		final String alias = "/home";
+        final String url = "/index.templates";
+        final String alias = "/home";
 		UrlMapping urlMapping = createValidUrlMappingInDatabase(dynamoService, url, alias);
 
 		CustomDataPlugin customDataPlugin = createCustomDataPlugin("com.next.dynamo.service.plugin.impl.PluginOne", false, customDataPluginName);
@@ -273,8 +271,8 @@ public class ITPluginManagerImplTest extends BaseServiceItest{
 	@Test
 	public void test_applyAllPluginsForUrl_forUnknownPlugin() throws DynamoException{
 		final String customDataPluginName = "PluginOne";
-		final String url = "/index.html";
-		final String alias = "/home";
+        final String url = "/index.templates";
+        final String alias = "/home";
 		UrlMapping urlMapping = createValidUrlMappingInDatabase(dynamoService, url, alias);
 
 		CustomDataPlugin customDataPlugin = createCustomDataPlugin("com.next.dynamo.service.plugin.impl.DoNotExists", false, customDataPluginName);
@@ -307,10 +305,10 @@ public class ITPluginManagerImplTest extends BaseServiceItest{
 	public void test_applyAllPluginsForUrl_withPathParams() throws DynamoException{
 		final String customDataPluginName = "PluginOne";
 		final String staticDataPluginName = "SomeDataPlugin";
-		final String url = "/{userId}/index.html";
-		final String alias = "/{userId}/home";
-		final String invokedUrl = "/100/index.html";
-		UrlMapping urlMapping = createValidUrlMappingInDatabase(dynamoService, url, alias);
+        final String url = "/{userId}/index.templates";
+        final String alias = "/{userId}/home";
+        final String invokedUrl = "/100/index.templates";
+        UrlMapping urlMapping = createValidUrlMappingInDatabase(dynamoService, url, alias);
 
 		CustomDataPlugin customDataPlugin = createCustomDataPlugin("com.next.dynamo.service.plugin.impl.PluginOne", false, customDataPluginName);
 		customDataPlugin = dynamoService.saveCustomDataPlugin(customDataPlugin);
@@ -354,8 +352,8 @@ public class ITPluginManagerImplTest extends BaseServiceItest{
 	public void test_applyAllPluginsForUrl_withPathParamsAliasUrl() throws DynamoException{
 		final String customDataPluginName = "PluginOne";
 		final String staticDataPluginName = "SomeDataPlugin";
-		final String url = "/{userId}/index.html";
-		final String alias = "/{userId}/home";
+        final String url = "/{userId}/index.templates";
+        final String alias = "/{userId}/home";
 		final String invokedUrl = "/100/home";
 		UrlMapping urlMapping = createValidUrlMappingInDatabase(dynamoService, url, alias);
 
