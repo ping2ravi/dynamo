@@ -1,7 +1,8 @@
 package com.next.dynamo.service;
 
-import java.util.List;
-
+import com.next.dynamo.exception.DynamoException;
+import com.next.dynamo.persistance.*;
+import com.next.dynamo.persistance.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,24 +12,10 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.next.dynamo.exception.DynamoException;
-import com.next.dynamo.persistance.CustomDataPlugin;
-import com.next.dynamo.persistance.Domain;
-import com.next.dynamo.persistance.DomainTemplate;
-import com.next.dynamo.persistance.PageTemplate;
-import com.next.dynamo.persistance.PartTemplate;
-import com.next.dynamo.persistance.StaticDataPlugin;
-import com.next.dynamo.persistance.UrlMapping;
-import com.next.dynamo.persistance.UrlMappingPlugin;
-import com.next.dynamo.persistance.repository.CustomDataPluginRepository;
-import com.next.dynamo.persistance.repository.DomainRepository;
-import com.next.dynamo.persistance.repository.DomainTemplateRepository;
-import com.next.dynamo.persistance.repository.PageTemplateRepository;
-import com.next.dynamo.persistance.repository.PartTemplateRepository;
-import com.next.dynamo.persistance.repository.StaticDataPluginRepository;
-import com.next.dynamo.persistance.repository.UrlMappingPluginRepository;
-import com.next.dynamo.persistance.repository.UrlMappingRepository;
-import com.next.dynamo.util.DynamoAssert;
+import java.util.List;
+
+import static com.next.dynamo.util.DynamoAssert.assertNotBlank;
+import static com.next.dynamo.util.DynamoAssert.notNull;
 
 @Service
 @Transactional(rollbackFor=Exception.class)
@@ -50,8 +37,6 @@ public class DynamoServiceImpl implements DynamoService {
 	private UrlMappingRepository urlMappingRepository;
 	@Autowired
 	private UrlMappingPluginRepository urlMappingPluginRepository;
-	@Autowired
-	private DynamoAssert dynamoAssert;
 
 	@Override
 	public Page<Domain> getDomains(int pageNumber, int pageSize) throws DynamoException {
@@ -63,7 +48,8 @@ public class DynamoServiceImpl implements DynamoService {
 
 	@Override
 	public Domain saveDomain(Domain domain) throws DynamoException {
-		if(domain.getExtendedDomain() != null){
+        assertNotBlank(domain.getName(), "Domain Name can not be null or empty");
+        if(domain.getExtendedDomain() != null){
 			Domain extendedDomain = domainRepository.findOne(domain.getExtendedDomain().getId());
 			domain.setExtendedDomain(extendedDomain);
 		}
@@ -78,8 +64,8 @@ public class DynamoServiceImpl implements DynamoService {
 
 	@Override
 	public DomainTemplate saveDomainTemplate(DomainTemplate domainTemplate) throws DynamoException {
-		dynamoAssert.notNull(domainTemplate.getDomain(), "{domiantemplate.domain.empty.error}");
-		DomainTemplate currentActiveDomainTemplate = domainTemplateRepository.findActiveDomainTemplateByDomainId(domainTemplate.getDomain().getId());
+        notNull(domainTemplate.getDomain(), "Cant save Null Object");
+        DomainTemplate currentActiveDomainTemplate = domainTemplateRepository.findActiveDomainTemplateByDomainId(domainTemplate.getDomain().getId());
 		if(currentActiveDomainTemplate!=null && domainTemplate.isActive() && !currentActiveDomainTemplate.getId().equals(domainTemplate.getId())){
 			throw new DynamoException("{active.domain.template.exists.error}");
 		}

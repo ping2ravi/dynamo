@@ -1,22 +1,11 @@
 package com.next.dynamo.persistance;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.NotBlank;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "domain")
@@ -26,7 +15,6 @@ import lombok.ToString;
 public class Domain extends BaseEntity {
 
     @Column(name = "name")
-    @NotBlank(message="{domian.name.empty.error}")
     private String name;
 
     @ElementCollection(fetch=FetchType.EAGER)
