@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue(value = "page")
-@Getter 
+@Getter
 @Setter
 @ToString(callSuper = true, exclude = {"urlMapping", "mainTemplate"})
 public class PageTemplate extends Template {

@@ -14,8 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.next.dynamo.util.DynamoAssert.assertNotBlank;
-import static com.next.dynamo.util.DynamoAssert.notNull;
+import static com.next.dynamo.util.DynamoAssert.*;
 
 @Service
 @Transactional(rollbackFor=Exception.class)
@@ -158,8 +157,13 @@ public class DynamoServiceImpl implements DynamoService {
 	
 	@Override
 	public PageTemplate savePageTemplate(PageTemplate pageTemplate) throws DynamoException {
-		return pageTemplateRepository.save(pageTemplate);
-	}
+        assertNotNull(pageTemplate.getMainTemplate(), "Main Template Must Be provided");
+        assertNotNull(pageTemplate.getUrlMapping(), "Url Mapping Must Be provided");
+        assertNotNull(pageTemplate.getDomainTemplate(), "DomainTemplate Must Be provided");
+        assertNotBlank(pageTemplate.getGitFilePath(), "Git file path can not be null or blank");
+
+        return pageTemplateRepository.save(pageTemplate);
+    }
 
 	@Override
 	public PageTemplate getPageTemplateById(Long pageTemplateId) throws DynamoException {
@@ -176,8 +180,13 @@ public class DynamoServiceImpl implements DynamoService {
 		return partTemplateRepository.findPartTemplatesByDomainTemplateId(domainTemplateId);
 	}
 
-	@Override
-	public PartTemplate savePartTemplate(PartTemplate partTemplate) throws DynamoException {
+    @Override
+    public List<PartTemplate> findMainPartTemplateByDomainTemplate(Long domainTemplateId) throws DynamoException {
+        return partTemplateRepository.findMainPartTemplatesByDomainTemplateId(domainTemplateId);
+    }
+
+    @Override
+    public PartTemplate savePartTemplate(PartTemplate partTemplate) throws DynamoException {
 		return partTemplateRepository.save(partTemplate);
 	}
 

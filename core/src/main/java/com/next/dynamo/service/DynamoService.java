@@ -54,5 +54,7 @@ public interface DynamoService {
 
 	List<PartTemplate> findPartTemplateByDomainTemplate(Long domainTemplateId) throws DynamoException;
 
+    List<PartTemplate> findMainPartTemplateByDomainTemplate(Long domainTemplateId) throws DynamoException;
+
     List<PageTemplate> findPageTemplatesByDomainTemplateId(Long domainTemplateId) throws DynamoException;
 }
