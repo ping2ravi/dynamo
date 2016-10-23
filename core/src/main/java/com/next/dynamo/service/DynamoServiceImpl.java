@@ -167,8 +167,8 @@ public class DynamoServiceImpl implements DynamoService {
 	}
 
 	@Override
-	public List<PageTemplate> getPageTemplatesByDomainTemplateId(Long domainTemplateId) throws DynamoException {
-		return pageTemplateRepository.findPageTemplatesByDomainTemplateId(domainTemplateId);
+    public List<PageTemplate> findPageTemplatesByDomainTemplateId(Long domainTemplateId) throws DynamoException {
+        return pageTemplateRepository.findPageTemplatesByDomainTemplateId(domainTemplateId);
 	}
 
 	@Override
@@ -180,5 +180,10 @@ public class DynamoServiceImpl implements DynamoService {
 	public PartTemplate savePartTemplate(PartTemplate partTemplate) throws DynamoException {
 		return partTemplateRepository.save(partTemplate);
 	}
+
+    @Override
+    public PartTemplate getPartTemplateById(Long partTemplateId) throws DynamoException {
+        return partTemplateRepository.findOne(partTemplateId);
+    }
 
 }

@@ -1,14 +1,5 @@
 package com.next.dynamo.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import org.eclipse.jgit.api.Git;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.next.dynamo.exception.DynamoException;
@@ -16,8 +7,15 @@ import com.next.dynamo.persistance.Domain;
 import com.next.dynamo.persistance.DomainTemplate;
 import com.next.dynamo.persistance.PageTemplate;
 import com.next.dynamo.util.DynamoAssert;
-
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.jgit.api.Git;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -62,7 +60,7 @@ public class GitServiceImpl implements GitService {
 				// needs to be closed to avoid file handle leaks!
 				System.out.println("Having repository: " + result.getRepository().getDirectory());
 				List<PageTemplate> pageTemplates = dynamoService
-						.getPageTemplatesByDomainTemplateId(domainTemplate.getId());
+						.findPageTemplatesByDomainTemplateId(domainTemplate.getId());
 				for (PageTemplate onePageTemplate : pageTemplates) {
 					reloadPageTemplate(localPath, onePageTemplate);
 				}

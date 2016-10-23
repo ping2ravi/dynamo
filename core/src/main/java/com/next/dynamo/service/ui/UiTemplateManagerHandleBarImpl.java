@@ -1,31 +1,24 @@
 package com.next.dynamo.service.ui;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.github.jknack.handlebars.Template;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.next.dynamo.persistance.*;
+import com.next.dynamo.service.DynamoService;
+import com.next.dynamo.service.plugin.HttpParameters;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.github.jknack.handlebars.Template;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.next.dynamo.persistance.Domain;
-import com.next.dynamo.persistance.DomainTemplate;
-import com.next.dynamo.persistance.PageTemplate;
-import com.next.dynamo.persistance.PartTemplate;
-import com.next.dynamo.persistance.UrlMapping;
-import com.next.dynamo.service.DynamoService;
-import com.next.dynamo.service.plugin.HttpParameters;
-
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -147,7 +140,7 @@ public class UiTemplateManagerHandleBarImpl implements UiTemplateManager<Templat
                     
                     
                     List<PartTemplate> subTemplates = uiTemplateService.findPartTemplateByDomainTemplate(activeDomainPageTemplates.getId());
-                    List<PageTemplate> pageTemplates = uiTemplateService.getPageTemplatesByDomainTemplateId(activeDomainPageTemplates.getId());
+                    List<PageTemplate> pageTemplates = uiTemplateService.findPageTemplatesByDomainTemplateId(activeDomainPageTemplates.getId());
                     Map<Long, Template> pageCompiledTemplates = new HashMap<Long, Template>();
                     Template compiledTemplate;
 
