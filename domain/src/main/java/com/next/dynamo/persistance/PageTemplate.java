@@ -1,22 +1,16 @@
 package com.next.dynamo.persistance;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue(value = "page")
 @Getter 
 @Setter
-@ToString(callSuper=true, exclude={"urlMapping"})
+@ToString(callSuper = true, exclude = {"urlMapping", "mainTemplate"})
 public class PageTemplate extends Template {
 
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)

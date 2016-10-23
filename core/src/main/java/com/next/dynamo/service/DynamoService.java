@@ -1,18 +1,10 @@
 package com.next.dynamo.service;
 
-import java.util.List;
-
+import com.next.dynamo.exception.DynamoException;
+import com.next.dynamo.persistance.*;
 import org.springframework.data.domain.Page;
 
-import com.next.dynamo.exception.DynamoException;
-import com.next.dynamo.persistance.CustomDataPlugin;
-import com.next.dynamo.persistance.Domain;
-import com.next.dynamo.persistance.DomainTemplate;
-import com.next.dynamo.persistance.PageTemplate;
-import com.next.dynamo.persistance.PartTemplate;
-import com.next.dynamo.persistance.StaticDataPlugin;
-import com.next.dynamo.persistance.UrlMapping;
-import com.next.dynamo.persistance.UrlMappingPlugin;
+import java.util.List;
 
 public interface DynamoService {
 
@@ -29,7 +21,9 @@ public interface DynamoService {
 	DomainTemplate getActiveDomainTemplateOfDomain(Long domainId) throws DynamoException;
 	
 	List<DomainTemplate> getDomainTemplatesOfDomain(Long domainId) throws DynamoException;
-	
+
+    List<DomainTemplate> getAllDomainTemplates() throws DynamoException;
+
 	CustomDataPlugin saveCustomDataPlugin(CustomDataPlugin customDataPlugin) throws DynamoException;
 
 	CustomDataPlugin getCustomDataPluginById(Long customDataPluginId) throws DynamoException;

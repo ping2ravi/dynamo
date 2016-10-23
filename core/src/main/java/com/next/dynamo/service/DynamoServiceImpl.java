@@ -64,7 +64,7 @@ public class DynamoServiceImpl implements DynamoService {
 
 	@Override
 	public DomainTemplate saveDomainTemplate(DomainTemplate domainTemplate) throws DynamoException {
-        notNull(domainTemplate.getDomain(), "Cant save Null Object");
+        notNull(domainTemplate.getDomain(), "Domain Template ,ust have valid domain");
         DomainTemplate currentActiveDomainTemplate = domainTemplateRepository.findActiveDomainTemplateByDomainId(domainTemplate.getDomain().getId());
 		if(currentActiveDomainTemplate!=null && domainTemplate.isActive() && !currentActiveDomainTemplate.getId().equals(domainTemplate.getId())){
 			throw new DynamoException("{active.domain.template.exists.error}");
@@ -88,9 +88,14 @@ public class DynamoServiceImpl implements DynamoService {
 		return domainTemplateRepository.findDomainTemplateByDomainId(domainId);
 	}
 
+    @Override
+    public List<DomainTemplate> getAllDomainTemplates() throws DynamoException {
+        return domainTemplateRepository.findAll();
+    }
 
-	@Override
-	public CustomDataPlugin saveCustomDataPlugin(CustomDataPlugin customDataPlugin) throws DynamoException {
+
+    @Override
+    public CustomDataPlugin saveCustomDataPlugin(CustomDataPlugin customDataPlugin) throws DynamoException {
 		CustomDataPlugin dbCustomDataPlugin = customDataPluginRepository.findByFullClassName(customDataPlugin.getFullClassName());
 		if(dbCustomDataPlugin != null){
 			dbCustomDataPlugin.setPluginName(customDataPlugin.getPluginName());
