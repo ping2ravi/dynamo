@@ -63,10 +63,10 @@ public class DynamoServiceImpl implements DynamoService {
 
 	@Override
 	public DomainTemplate saveDomainTemplate(DomainTemplate domainTemplate) throws DynamoException {
-        notNull(domainTemplate.getDomain(), "Domain Template ,ust have valid domain");
+        notNull(domainTemplate.getDomain(), "Domain Template must have valid domain");
         DomainTemplate currentActiveDomainTemplate = domainTemplateRepository.findActiveDomainTemplateByDomainId(domainTemplate.getDomain().getId());
 		if(currentActiveDomainTemplate!=null && domainTemplate.isActive() && !currentActiveDomainTemplate.getId().equals(domainTemplate.getId())){
-			throw new DynamoException("{active.domain.template.exists.error}");
+			throw new DynamoException("Active domain template already exists.");
 		}
 		domainTemplate = domainTemplateRepository.save(domainTemplate);
 		return domainTemplate;
