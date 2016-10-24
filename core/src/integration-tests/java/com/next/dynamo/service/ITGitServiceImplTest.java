@@ -1,7 +1,9 @@
 package com.next.dynamo.service;
 
-import java.io.IOException;
-
+import com.next.dynamo.exception.DynamoException;
+import com.next.dynamo.persistance.Domain;
+import com.next.dynamo.persistance.DomainTemplate;
+import com.next.dynamo.persistance.PageTemplate;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
@@ -9,10 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.next.dynamo.exception.DynamoException;
-import com.next.dynamo.persistance.Domain;
-import com.next.dynamo.persistance.DomainTemplate;
-import com.next.dynamo.persistance.PageTemplate;
+import java.io.IOException;
 
 public class ITGitServiceImplTest extends BaseServiceItest{
 
@@ -126,5 +125,23 @@ public class ITGitServiceImplTest extends BaseServiceItest{
 		
 		gitService.refreshDomainFromGit(domain.getId(), domainTemplate.getId());
 	}
+
+    @Test
+    public void test_refreshFileList_ByDomainIdAndTemplateId_ActiveDomainTemplateExists() throws DynamoException, IOException, InvalidRemoteException, TransportException, GitAPIException {
+
+        Domain domain = createDomain("www.test.com", true, "{Some:Settings}", null);
+        domain = dynamoService.saveDomain(domain);
+
+        DomainTemplate domainTemplate = createDomainTemplate("My Template", "master", "https://github.com/ModernAristotle/si-ui.git", true, domain);
+        domainTemplate = dynamoService.saveDomainTemplate(domainTemplate);
+
+        //PageTemplate pageTemplate = createPageTemplate("/first/design1.html", "", domainTemplate, null);
+        //pageTemplate = dynamoService.savePageTemplate(pageTemplate);
+
+        gitService.refreshFileList(domainTemplate.getId());
+
+        //PageTemplate dbPageTemplate = dynamoService.getPageTemplateById(pageTemplate.getId());
+        //Assert.assertNotEquals("", dbPageTemplate.getHtmlContent());
+    }
 
 }

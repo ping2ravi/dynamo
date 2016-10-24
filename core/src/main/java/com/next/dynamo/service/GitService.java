@@ -8,4 +8,6 @@ public interface GitService {
 	
 	void refreshDomainFromGit(Long domainId, Long domainTemplateId) throws DynamoException;
 
+    void refreshFileList(Long domainTemplateId) throws DynamoException;
+
 }

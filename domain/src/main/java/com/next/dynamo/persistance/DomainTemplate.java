@@ -1,24 +1,19 @@
 package com.next.dynamo.persistance;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name = "domain_template")
 @Getter 
 @Setter
-@ToString(callSuper=true,exclude={"domain"})
+@ToString(callSuper = true, exclude = {"domain", "gitFiles"})
 public class DomainTemplate extends BaseEntity {
 
     @Column(name = "name")
@@ -42,5 +37,13 @@ public class DomainTemplate extends BaseEntity {
     @NotBlank(message="{domiantemplate.git.branch.empty.error}")
     @Column(name = "git_branch")
     private String gitBranch;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+            name = "domain_template_git_files",
+            joinColumns = @JoinColumn(name = "domain_template_id")
+    )
+    @Column(name = "file_path")
+    private Set<String> gitFiles;
 
 }
