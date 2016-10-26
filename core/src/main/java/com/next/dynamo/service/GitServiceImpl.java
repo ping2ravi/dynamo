@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -31,14 +33,13 @@ public class GitServiceImpl implements GitService {
 		Domain domain = dynamoService.getDomainById(domainId);
 		DomainTemplate currentActiveDomainTemplate = dynamoService.getActiveDomainTemplateOfDomain(domainId);
 
-		refreshDomainFromGit(domain, currentActiveDomainTemplate);
+		refreshDomainFromGit(currentActiveDomainTemplate);
 	}
 
 	@Override
 	public void refreshDomainFromGit(Long domainId, Long domainTemplateId) throws DynamoException {
-		Domain domain = dynamoService.getDomainById(domainId);
 		DomainTemplate domainTemplate = dynamoService.getDomainTemplateById(domainTemplateId);
-		refreshDomainFromGit(domain, domainTemplate);
+		refreshDomainFromGit(domainTemplate);
 
 	}
 
@@ -46,22 +47,22 @@ public class GitServiceImpl implements GitService {
     public void refreshFileList(Long domainTemplateId) throws DynamoException {
         DomainTemplate domainTemplate = dynamoService.getDomainTemplateById(domainTemplateId);
         try {
+			File mainBasePath = new File("/tmp/TestGitRepository/");
+			mainBasePath.delete();
 
             String gitRepository = domainTemplate.getGitRepository();
             String gitBranch = domainTemplate.getGitBranch();
-            File localPath = File.createTempFile("/tmp/TestGitRepository/", "");
-            localPath.delete();
+			File localPath = File.createTempFile("/tmp/TestGitRepository/github/", "");
+			localPath.delete();
             // then clone
             log.info("Cloning from {} : {} to {}", gitRepository, gitBranch, localPath);
-            String templatePath = localPath.getAbsolutePath() + "/src/main/resources/templates";
-            File htmlFileDirectory = new File(templatePath);
             domainTemplate.setGitFiles(new TreeSet<>());
             try (Git result = Git.cloneRepository().setURI(gitRepository).setDirectory(localPath).setBranch(gitBranch)
                     .call()) {
 
                 // Note: the call() returns an opened repository already which
                 // needs to be closed to avoid file handle leaks!
-                printFIles(htmlFileDirectory, domainTemplate, localPath.getPath());
+				scanHtmlFiles(localPath, domainTemplate);
 
                 result.close();
             }
@@ -72,29 +73,49 @@ public class GitServiceImpl implements GitService {
         }
     }
 
-    private void printFIles(File htmlFileDirectory, DomainTemplate domainTemplate, String basePath) {
-        File[] files = htmlFileDirectory.listFiles();
+	@Override
+	public void refreshDomainTemplateFromGit(Long domainTemplateId) throws DynamoException {
+		DomainTemplate domainTemplate = dynamoService.getDomainTemplateById(domainTemplateId);
+		refreshDomainFromGit(domainTemplate);
+	}
+
+	@Override
+	public List<String> getDomaintemplateGitFiles(Long domainTemplateId) throws DynamoException {
+		DomainTemplate domainTemplate = dynamoService.getDomainTemplateById(domainTemplateId);
+		return Collections.unmodifiableList(new ArrayList(domainTemplate.getGitFiles()));
+	}
+
+	private void scanHtmlFiles(File localPath, DomainTemplate domainTemplate) {
+		String templatePath = localPath.getAbsolutePath() + "/src/main/resources/templates";
+		File htmlFileDirectory = new File(templatePath);
+		scanFiles(htmlFileDirectory, domainTemplate, localPath.getPath());
+	}
+
+	private void scanFiles(File htmlFileDirectory, DomainTemplate domainTemplate, String basePath) {
+		File[] files = htmlFileDirectory.listFiles();
         if (files == null || files.length == 0) {
             return;
         }
         for (File oneFile : files) {
             if (oneFile.isDirectory()) {
-                printFIles(oneFile, domainTemplate, basePath);
-                continue;
+				scanFiles(oneFile, domainTemplate, basePath);
+				continue;
             }
             domainTemplate.getGitFiles().add(oneFile.getPath().replace(basePath, ""));
             System.out.println(oneFile.getPath().replace(basePath + "/", ""));
         }
     }
 
-    private void refreshDomainFromGit(Domain domain, DomainTemplate domainTemplate) throws DynamoException {
-        dynamoAssert.notNull(domainTemplate,
-				"No Active Domain template found for Domain[" + domain.getName() + ", id: " + domain.getId() + "]");
+	private void refreshDomainFromGit(DomainTemplate domainTemplate) throws DynamoException {
+		dynamoAssert.notNull(domainTemplate,
+				"No Active Domain template found for Domain[" + domainTemplate.getDomain().getName() + ", id: " + domainTemplate.getDomain().getId() + "]");
 		try {
+			File mainBasePath = new File("/tmp/TestGitRepository/");
+			mainBasePath.delete();
 
 			String gitRepository = domainTemplate.getGitRepository();
 			String gitBranch = domainTemplate.getGitBranch();
-			File localPath = File.createTempFile("/tmp/TestGitRepository/", "");
+			File localPath = File.createTempFile("/tmp/TestGitRepository/github/", "");
 			localPath.delete();
 			// then clone
 			log.info("Cloning from {} : {} to {}", gitRepository ,gitBranch,  localPath);
@@ -116,6 +137,7 @@ public class GitServiceImpl implements GitService {
                 }
                 result.close();
 			}
+			scanHtmlFiles(localPath, domainTemplate);
 			localPath.delete();
 
 		} catch (Exception e) {
