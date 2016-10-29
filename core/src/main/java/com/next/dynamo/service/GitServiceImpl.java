@@ -13,10 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -27,6 +24,8 @@ public class GitServiceImpl implements GitService {
 	private DynamoService dynamoService;
 	@Autowired
 	private DynamoAssert dynamoAssert;
+    @Autowired
+    private DynamoTemplateManager dynamoTemplateManager;
 
 	@Override
 	public void refreshDomainFromGit(Long domainId) throws DynamoException {
@@ -155,7 +154,14 @@ public class GitServiceImpl implements GitService {
 		File sourceFile = new File(sourceFilePath);
 		String htmlContent = Files.toString(sourceFile, Charsets.UTF_8);
 		log.info("Content from file {} is {}", sourceFilePath, htmlContent);
-		pageTemplate.setHtmlContent(htmlContent);
+
+
+        Map<String, Object> contextParams = new HashMap<>();
+
+        contextParams.put("s3_static_content_dir", "https://s3.ap-south-1.amazonaws.com/siorg/website");
+        contextParams.put("s3_dynamic_css_dir", "https://s3.ap-south-1.amazonaws.com/siorg/website/custom/css");
+        htmlContent = dynamoTemplateManager.processTemplate(htmlContent, contextParams);
+        pageTemplate.setHtmlContent(htmlContent);
 	}
 
 }

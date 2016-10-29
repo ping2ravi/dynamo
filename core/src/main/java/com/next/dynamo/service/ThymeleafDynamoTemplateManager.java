@@ -22,6 +22,7 @@ public class ThymeleafDynamoTemplateManager implements DynamoTemplateManager {
     @Override
     public String processTemplate(String templateBody, Map<String, Object> contextParameters) {
         Context context = new Context();
+        System.out.println("contextParameters " + contextParameters);
         context.setVariable(TEMPLATE_NAME, templateBody);
         context.setVariables(contextParameters);
         String response = templateEngine.process(TEMPLATE_NAME, context);

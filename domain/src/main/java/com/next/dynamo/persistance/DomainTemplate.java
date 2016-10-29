@@ -44,6 +44,7 @@ public class DomainTemplate extends BaseEntity {
             joinColumns = @JoinColumn(name = "domain_template_id")
     )
     @Column(name = "file_path")
+    @OrderBy("file_path ASC")
     private Set<String> gitFiles;
 
 }

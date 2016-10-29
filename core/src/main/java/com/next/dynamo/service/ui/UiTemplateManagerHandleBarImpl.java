@@ -209,13 +209,20 @@ public class UiTemplateManagerHandleBarImpl implements UiTemplateManager<Templat
 
     private void applySubTemplates(PageTemplate onePageTemplate, List<PartTemplate> subTemplates) {
     	String mainTemplateForPage = onePageTemplate.getMainTemplate().getHtmlContent();
-    	mainTemplateForPage = StringUtils.replace(mainTemplateForPage, "[[BODY]]", onePageTemplate.getHtmlContent());
-    	onePageTemplate.setHtmlContent(mainTemplateForPage);
+        mainTemplateForPage = StringUtils.replace(mainTemplateForPage, "[[BODY]]", onePageTemplate.getHtmlContent());
+        onePageTemplate.setHtmlContent(mainTemplateForPage);
+        mainTemplateForPage = applySubTemplates(mainTemplateForPage, subTemplates);
+        mainTemplateForPage = applySubTemplates(mainTemplateForPage, subTemplates);
+        onePageTemplate.setHtmlContent(mainTemplateForPage);
+
+    }
+
+    private String applySubTemplates(String mainTemplateForPage, List<PartTemplate> subTemplates) {
         for (PartTemplate onePartTemplate : subTemplates) {
             String templateKey = "[[" + onePartTemplate.getPartName() + "]]";
-            String htmlContent = StringUtils.replace(onePageTemplate.getHtmlContent(), templateKey, onePartTemplate.getHtmlContent());
-            onePageTemplate.setHtmlContent(htmlContent);
+            mainTemplateForPage = StringUtils.replace(mainTemplateForPage, templateKey, onePartTemplate.getHtmlContent());
         }
+        return mainTemplateForPage;
     }
 
 

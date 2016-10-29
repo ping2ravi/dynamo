@@ -6,11 +6,11 @@ public class ThymeleafTemplateResolutionValidity implements ITemplateResolutionV
 
     @Override
     public boolean isCacheable() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isCacheStillValid() {
-        return true;
+        return false;
     }
 }
