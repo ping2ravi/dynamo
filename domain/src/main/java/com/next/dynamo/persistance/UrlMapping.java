@@ -1,22 +1,15 @@
 package com.next.dynamo.persistance;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Set;
+
+import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Table(name = "url_mapping")
@@ -29,8 +22,8 @@ public class UrlMapping extends BaseEntity {
     @NotBlank(message="{urlmapping.urlpattern.empty.error}")
     private String urlPattern;
 
-   
-    @ElementCollection
+
+    @ElementCollection(fetch = EAGER)
     @CollectionTable(
           name="url_alias",
           joinColumns=@JoinColumn(name="url_mapping_id")
