@@ -1,30 +1,20 @@
 package com.next.dynamo.service.plugin;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.google.gson.JsonParser;
+import com.next.dynamo.exception.DynamoException;
+import com.next.dynamo.persistance.*;
+import com.next.dynamo.service.DynamoService;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.JsonParser;
-import com.next.dynamo.exception.DynamoException;
-import com.next.dynamo.persistance.CustomDataPlugin;
-import com.next.dynamo.persistance.DataPlugin;
-import com.next.dynamo.persistance.StaticDataPlugin;
-import com.next.dynamo.persistance.UrlMapping;
-import com.next.dynamo.persistance.UrlMappingPlugin;
-import com.next.dynamo.service.DynamoService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
@@ -141,7 +131,7 @@ public class PluginManagerImpl implements PluginManager {
         }*/
         if(addData){
             // First apply all Global Data Plugins
-            if(applyGenericPlugins){
+            if (applyGenericPlugins && globalWebDataPlugins != null) {
                 for (WebDataPlugin oneWebDataPlugin : globalWebDataPlugins) {
                     oneWebDataPlugin.applyPlugin(httpServletRequest, httpServletResponse, modelAndView);
                 }
