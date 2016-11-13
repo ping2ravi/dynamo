@@ -4,8 +4,10 @@ import com.google.gson.JsonParser;
 import com.next.dynamo.exception.DynamoException;
 import com.next.dynamo.persistance.*;
 import com.next.dynamo.service.DynamoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,17 +15,22 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
 @Transactional
+@Slf4j
 public class PluginManagerImpl implements PluginManager {
 
     @Autowired
     private BeanFactory springBeanFactory;
     @Autowired
     private DynamoService dynamoService;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     private List<PatternUrlMapping> urlPatterns;
     private List<WebDataPlugin> globalWebDataPlugins;
@@ -185,4 +192,17 @@ public class PluginManagerImpl implements PluginManager {
         return null;
     }
 
+    @Override
+    public void updateDbWithAllPlugins() throws DynamoException {
+        Map<String, WebDataPlugin> allWebDataPlugins = applicationContext.getBeansOfType(WebDataPlugin.class);
+        List<String> allPluginImplementations = new ArrayList<String>();
+        for (Entry<String, WebDataPlugin> oneEntry : allWebDataPlugins.entrySet()) {
+            if (oneEntry.getValue() instanceof WebStaticDataPlugin) {
+                continue;
+            }
+            allPluginImplementations.add(oneEntry.getValue().getClass().getName());
+            log.info(oneEntry.getValue().getClass().getName());
+        }
+        dynamoService.createAllCustomDataPlugins(allPluginImplementations);
+    }
 }

@@ -12,7 +12,9 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.next.dynamo.util.DynamoAssert.*;
 
@@ -195,4 +197,27 @@ public class DynamoServiceImpl implements DynamoService {
         return partTemplateRepository.findOne(partTemplateId);
     }
 
+    @Override
+    public void createAllCustomDataPlugins(List<String> classNames) throws DynamoException {
+        List<CustomDataPlugin> allCustomDataPlugins = customDataPluginRepository.findAll();
+        Set<String> allExistingPluginClassNames = new HashSet<String>();
+        for (CustomDataPlugin oneCustomDataPlugin : allCustomDataPlugins) {
+            allExistingPluginClassNames.add(oneCustomDataPlugin.getFullClassName());
+        }
+        for (String oneClass : classNames) {
+            if (allExistingPluginClassNames.contains(oneClass)) {
+                continue;
+            }
+            CustomDataPlugin customDataPlugin = new CustomDataPlugin();
+            customDataPlugin.setFullClassName(oneClass);
+            customDataPlugin.setDisabled(false);
+            customDataPlugin.setPluginName(getClassName(oneClass));
+            customDataPluginRepository.save(customDataPlugin);
+        }
+
+    }
+
+    private String getClassName(String fullClassName) {
+        return fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+    }
 }

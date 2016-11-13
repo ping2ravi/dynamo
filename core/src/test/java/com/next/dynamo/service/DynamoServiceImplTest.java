@@ -1,18 +1,16 @@
 package com.next.dynamo.service;
 
-import static org.junit.Assert.assertEquals;
-
+import com.next.dynamo.exception.DynamoException;
+import com.next.dynamo.persistance.Domain;
+import com.next.dynamo.persistance.repository.DomainRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.next.dynamo.exception.DynamoException;
-import com.next.dynamo.persistance.Domain;
-import com.next.dynamo.persistance.repository.DomainRepository;
+import static org.junit.Assert.assertEquals;
 
 public class DynamoServiceImplTest {
 
@@ -30,7 +28,8 @@ public class DynamoServiceImplTest {
 	@Test
 	public void createDomainAndRetrieveItById() throws DynamoException{
 		Domain domain = new Domain();
-		dynamoService.saveDomain(domain);
+        domain.setName("Some Domain Name");
+        dynamoService.saveDomain(domain);
 		Mockito.verify(domainRepository).save(domain);
 
 	}
