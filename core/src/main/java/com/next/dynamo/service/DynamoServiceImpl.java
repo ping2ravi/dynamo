@@ -12,9 +12,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.next.dynamo.util.DynamoAssert.*;
 
@@ -32,6 +30,8 @@ public class DynamoServiceImpl implements DynamoService {
 	private PartTemplateRepository partTemplateRepository;
 	@Autowired
 	private CustomDataPluginRepository customDataPluginRepository;
+	@Autowired
+	private DataPluginRepository dataPluginRepository;
 	@Autowired
 	private StaticDataPluginRepository staticDataPluginRepository;
 	@Autowired
@@ -114,6 +114,11 @@ public class DynamoServiceImpl implements DynamoService {
 	}
 
 	@Override
+	public List<CustomDataPlugin> getActiveCustomDataPlugins() throws DynamoException {
+		return customDataPluginRepository.getActiveCustomDataPlugins();
+	}
+
+	@Override
 	public StaticDataPlugin saveStaticDataPlugin(StaticDataPlugin staticDataPlugin) throws DynamoException {
 		staticDataPlugin = staticDataPluginRepository.save(staticDataPlugin);
 		return staticDataPlugin;
@@ -150,7 +155,29 @@ public class DynamoServiceImpl implements DynamoService {
 		urlMappingPlugin = urlMappingPluginRepository.save(urlMappingPlugin);
 		return urlMappingPlugin;
 	}
-	
+
+	@Override
+	public List<UrlMappingPlugin> saveUrlMappingPlugins(Long urlMappingId, Long[] dataPluginIds) throws DynamoException {
+		urlMappingPluginRepository.deleteUrlMappingPluginByUrlMappingId(urlMappingId);
+		if (dataPluginIds == null) {
+			return Collections.emptyList();
+		}
+		List<UrlMappingPlugin> urlMappingPlugins = new ArrayList<>(dataPluginIds.length);
+		DataPlugin dataPlugin;
+		UrlMappingPlugin urlMappingPlugin;
+		UrlMapping urlMapping = urlMappingRepository.findOne(urlMappingId);
+		for (Long oneDataPlugin : dataPluginIds) {
+			urlMappingPlugin = new UrlMappingPlugin();
+			dataPlugin = dataPluginRepository.findOne(oneDataPlugin);
+			urlMappingPlugin.setUrlMapping(urlMapping);
+			urlMappingPlugin.setDataPlugin(dataPlugin);
+			urlMappingPlugin.setSetting("{}");
+			urlMappingPlugin = saveUrlMappingPlugin(urlMappingPlugin);
+			urlMappingPlugins.add(urlMappingPlugin);
+		}
+		return urlMappingPlugins;
+	}
+
 	@Override
 	public List<UrlMappingPlugin> findUrlMappingPluginByUrlMapping(Long urlMappingId) throws DynamoException{
 		return urlMappingPluginRepository.findUrlMappingPluginsByUrlMappingId(urlMappingId);
@@ -217,7 +244,15 @@ public class DynamoServiceImpl implements DynamoService {
 
     }
 
-    private String getClassName(String fullClassName) {
-        return fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+	@Override
+	public List<DataPlugin> getDataPluginsOfUrlMapping(Long urlMappingId) throws DynamoException {
+		List<UrlMappingPlugin> urlMappingPlugins = urlMappingPluginRepository.findUrlMappingPluginsByUrlMappingId(urlMappingId);
+		List<DataPlugin> urlDataPlugins = new ArrayList<>();
+		urlMappingPlugins.forEach(oneUrlMapping -> urlDataPlugins.add(oneUrlMapping.getDataPlugin()));
+		return urlDataPlugins;
+	}
+
+	private String getClassName(String fullClassName) {
+		return fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
     }
 }

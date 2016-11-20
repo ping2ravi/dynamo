@@ -205,4 +205,5 @@ public class PluginManagerImpl implements PluginManager {
         }
         dynamoService.createAllCustomDataPlugins(allPluginImplementations);
     }
+
 }

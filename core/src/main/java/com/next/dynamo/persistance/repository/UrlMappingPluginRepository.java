@@ -1,12 +1,13 @@
 package com.next.dynamo.persistance.repository;
 
-import java.util.List;
-
+import com.next.dynamo.persistance.UrlMappingPlugin;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.next.dynamo.persistance.UrlMappingPlugin;
+import java.util.List;
 
 public interface UrlMappingPluginRepository extends JpaRepository<UrlMappingPlugin, Long> {
 
 	List<UrlMappingPlugin> findUrlMappingPluginsByUrlMappingId(Long urlMappingId);
+
+	void deleteUrlMappingPluginByUrlMappingId(Long urlMappingId);
 }

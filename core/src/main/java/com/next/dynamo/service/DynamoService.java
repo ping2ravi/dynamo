@@ -27,7 +27,9 @@ public interface DynamoService {
 	CustomDataPlugin saveCustomDataPlugin(CustomDataPlugin customDataPlugin) throws DynamoException;
 
 	CustomDataPlugin getCustomDataPluginById(Long customDataPluginId) throws DynamoException;
-	
+
+    List<CustomDataPlugin> getActiveCustomDataPlugins() throws DynamoException;
+
 	StaticDataPlugin saveStaticDataPlugin(StaticDataPlugin staticDataPlugin) throws DynamoException;
 
 	StaticDataPlugin getStaticDataPluginById(Long staticDataPluginId) throws DynamoException;
@@ -41,6 +43,8 @@ public interface DynamoService {
 	List<UrlMapping> getAllUrlMappings() throws DynamoException;
 	
 	UrlMappingPlugin saveUrlMappingPlugin(UrlMappingPlugin urlMappingPlugin) throws DynamoException;
+
+    List<UrlMappingPlugin> saveUrlMappingPlugins(Long urlMappingId, Long[] dataPluginIds) throws DynamoException;
 
 	List<UrlMappingPlugin> findUrlMappingPluginByUrlMapping(Long urlMappingId) throws DynamoException;
 
@@ -59,5 +63,7 @@ public interface DynamoService {
     List<PageTemplate> findPageTemplatesByDomainTemplateId(Long domainTemplateId) throws DynamoException;
 
 	void createAllCustomDataPlugins(List<String> classNames) throws DynamoException;
+
+    List<DataPlugin> getDataPluginsOfUrlMapping(Long urlMapping) throws DynamoException;
 
 }
