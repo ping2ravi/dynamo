@@ -1,6 +1,7 @@
 package com.next.dynamo.service.ui;
 
 import com.github.jknack.handlebars.Template;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.next.dynamo.persistance.*;
@@ -243,4 +244,19 @@ public class UiTemplateManagerHandleBarImpl implements UiTemplateManager<Templat
         return urlMapping.getHttpCacheTimeSeconds();
 	}
 
+    @Override
+    public Long getDomainLocation(HttpServletRequest httpServletRequest) {
+        init();
+        try {
+            JsonObject domainSettingMap = getDomainSettings(httpServletRequest);
+            JsonElement locationJsonElement = domainSettingMap.get("locationId");
+            if (locationJsonElement == null) {
+                return null;
+            }
+            return locationJsonElement.getAsLong();
+        } catch (Exception ex) {
+            return null;
+        }
+
+    }
 }

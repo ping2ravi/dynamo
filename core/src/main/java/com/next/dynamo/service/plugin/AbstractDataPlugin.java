@@ -1,13 +1,9 @@
 package com.next.dynamo.service.plugin;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
@@ -15,10 +11,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public abstract class AbstractDataPlugin implements WebDataPlugin {
 
@@ -33,7 +31,7 @@ public abstract class AbstractDataPlugin implements WebDataPlugin {
     protected final String name;
 
     public AbstractDataPlugin() {
-        this("NoName");
+        name = this.getClass().getSimpleName();
     }
 
     public AbstractDataPlugin(String pluginName) {
@@ -42,7 +40,7 @@ public abstract class AbstractDataPlugin implements WebDataPlugin {
 
     protected Pageable getPageRequest(HttpServletRequest httpServletRequest) {
         int page = getIntPramater(httpServletRequest, HttpParameters.PAGE_NUMBER_PARAM, HttpParameters.PAGE_NUMBER_DEFAULT_VALUE);
-        int size = getIntSettingPramater("news.size", 2);// getIntPramater(httpServletRequest, HttpParameters.PAGE_SIZE_PARAM, HttpParameters.PAGE_SIZE_DEFAULT_VALUE);
+        int size = getIntPramater(httpServletRequest, HttpParameters.PAGE_SIZE_PARAM, HttpParameters.PAGE_SIZE_DEFAULT_VALUE);
         Pageable pageable = new PageRequest(page, size);
         return pageable;
     }

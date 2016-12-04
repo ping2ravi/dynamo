@@ -1,9 +1,9 @@
 package com.next.dynamo.service.ui;
 
+import com.google.gson.JsonObject;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.JsonObject;
 
 public interface UiTemplateManager<T> {
 
@@ -14,5 +14,7 @@ public interface UiTemplateManager<T> {
     JsonObject getDomainSettings(HttpServletRequest httpServletRequest);
 
     Integer getCacheTime(HttpServletRequest httpServletRequest);
-	    
+
+    Long getDomainLocation(HttpServletRequest httpServletRequest);
+
 }
