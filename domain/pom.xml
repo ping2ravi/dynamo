@@ -304,6 +304,11 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>internal.repo</id>
+			<name>Internal Repository</name>
+			<url>https://build.nextinfotech.com/repository/maven-releases/</url>
+		</repository>
 	</repositories>
 
 	<pluginRepositories>
@@ -320,8 +325,8 @@
 	<distributionManagement>
 		<repository>
 			<id>internal.repo</id>
-			<name>Ny Repository</name>
-			<url>https://mymavenrepo.com/repo/opCYzgMfVCawcvp0r322/</url>
+			<name>Internal Repository</name>
+			<url>https://build.nextinfotech.com/repository/maven-releases/</url>
 		</repository>
 	</distributionManagement>
 
